@@ -36,25 +36,40 @@ xxx@mail.ustc.edu.cn}
 Crowd Sensing, Truth Discovery, Privacy Preservation
 \end{IEEEkeywords}
 
-\section{Introduction}\label{sec1}
+\section{Introduction}~\label{sec1}
 % What is the problem, why is the problem is important (motivation)
 Recently, developments in the field of cloud computing and Internet of Things (IoT) have led to an increased interest in crowd sensing.
-Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different devices.
-However, the quality of sensory data collected by different devices varies greatly, it is difficult for cloud servers to derive reliable aggregated result (called \textit{ground truth}).
+Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different terminal devices (usually called sensing workers).
+However, the quality of sensory data collected by different workers varies greatly, it is difficult for cloud servers to derive reliable aggregated result (called \textit{ground truth}).
 To address this challenge, an effective method called truth discovery has received more and more attention.
-The core principle of truth discovery is that the device will be assigned a higher weight if the sensory data provided by him/her is closer to the ground truth, the sensory data provided by a device will be counted more if this device has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
+The core principle of truth discovery is that the worker will be assigned a higher weight if the sensory data provided by him/her is closer to the ground truth, and the sensory data provided by a worker will be counted more if this worker has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
 
-Though Truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to device's privacy directly.
+Though Truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
 To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
-% 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据
-
-
-
+% 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据，引出我们的 contribution
+Most of these approaches are based on CRH algorithm~\cite{li_resolving_2014}, which is a representative algorithm of truth discovery in recent years.
+The CRH algorithm requires each worker sends values of all sensed objects.
+% It seems impractical in real mobile sensing systems because 
+This method will face challenge when one worker only sends values of partial sensed objects.
+Taking the example in~\cite{xia_quality-aware_2019}, the sensed objects represent different locations, which means the sensory values provided by workers are sparse.
+In this situation, it is infeasible to apply above privacy-preserving truth discovery algorithms.
 
 % contribution
+In this paper, we propose a privacy-preserving truth discovery to deal with the situation when the sensory data are sparse.
+In particular, our contributions are summarized in the following:
+
+\begin{itemize}
+  \item We present a privacy-preserving truth discovery framework which address the issues of data sparsity based on the CATD algorithm.
+  \item With the help of secure two-party computation, our proposed scheme provide strong privacy for workers in an efficient way.
+  \item We conduct extensive experiments to evaluate the performance of our proposed scheme, and the results demonstrate that our design is practical in crowd sensing systems.
+\end{itemize}
 
 
-\section{Related Work}
+\section{Related Work}~\label{sec2}
+% 基于 CRH
+% 基于 CATD
+% 为什么它们都不行
+The first serious discussions of privacy preservation for truth discovery is PPTD~\cite{miao_cloud-enabled_2015}.
 
 \section{Problem Statement}
 
