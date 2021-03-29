@@ -37,9 +37,21 @@ Crowd Sensing, Truth Discovery, Privacy Preservation
 \end{IEEEkeywords}
 
 \section{Introduction}\label{sec1}
-% What is the problem, why is the problem is important
+% What is the problem, why is the problem is important (motivation)
 Recently, developments in the field of cloud computing and Internet of Things (IoT) have led to an increased interest in crowd sensing.
-With the help of crowd sensing, a crowd server can collect and analyze the sensory data from different devices.
+Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different devices.
+However, the quality of sensory data collected by different devices varies greatly, it is difficult for cloud servers to derive reliable aggregated result (called \textit{ground truth}).
+To address this challenge, an effective method called truth discovery has received more and more attention.
+The core principle of truth discovery is that the device will be assigned a higher weight if the sensory data provided by him/her is closer to the ground truth, the sensory data provided by a device will be counted more if this device has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
+
+Though Truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to device's privacy directly.
+To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
+% 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据
+
+
+
+
+% contribution
 
 
 \section{Related Work}
@@ -52,7 +64,7 @@ With the help of crowd sensing, a crowd server can collect and analyze the senso
 
 \section{System Analysis}
 
-\bibliographystyle{ieeetran}
+\bibliographystyle{IEEEtran}
 \bibliography{ref}
 
 \vspace{12pt}
