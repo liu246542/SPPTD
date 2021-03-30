@@ -14,6 +14,7 @@
 \begin{document}
 
 \title{Privacy-preserving truth discovery for sparse data in crowd sensing systems\\
+% \title{Privacy-preserving truth discovery in sparse mobile crowd sensing systems\\
 % {\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 % should not be used}
 % \thanks{Identify applicable funding agency here. If none, delete this.}
@@ -44,36 +45,83 @@ However, the quality of sensory data collected by different workers varies great
 To address this challenge, an effective method called truth discovery has received more and more attention.
 The core principle of truth discovery is that the worker will be assigned a higher weight if the sensory data provided by him/her is closer to the ground truth, and the sensory data provided by a worker will be counted more if this worker has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
 
-Though Truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
-To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
+Though truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
+To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery (PPTD)~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
 % 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据，引出我们的 contribution
 Most of these approaches are based on CRH algorithm~\cite{li_resolving_2014}, which is a representative algorithm of truth discovery in recent years.
 The CRH algorithm requires each worker sends values of all sensed objects.
 % It seems impractical in real mobile sensing systems because 
 This method will face challenge when one worker only sends values of partial sensed objects.
-Taking the example in~\cite{xia_quality-aware_2019}, the sensed objects represent different locations, which means the sensory values provided by workers are sparse.
-In this situation, it is infeasible to apply above privacy-preserving truth discovery algorithms.
+Taking the sparse mobile crowd sensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different sub-areas, which infers the sensory values provided by workers are sparse.
+In this situation, it is infeasible to apply above PPTD algorithms.
 
 % contribution
 In this paper, we propose a privacy-preserving truth discovery to deal with the situation when the sensory data are sparse.
 In particular, our contributions are summarized in the following:
 
 \begin{itemize}
-  \item We present a privacy-preserving truth discovery framework which address the issues of data sparsity based on the CATD algorithm.
+  \item We present a novel PPTD framework which address the issues of data sparsity based on the CATD algorithm.
   \item With the help of secure two-party computation, our proposed scheme provide strong privacy for workers in an efficient way.
   \item We conduct extensive experiments to evaluate the performance of our proposed scheme, and the results demonstrate that our design is practical in crowd sensing systems.
 \end{itemize}
+
+The remainder of this paper is organized as follows. ......
 
 
 \section{Related Work}~\label{sec2}
 % 基于 CRH
 % 基于 CATD
 % 为什么它们都不行
-The first serious discussions of privacy preservation for truth discovery is PPTD~\cite{miao_cloud-enabled_2015}.
+
+At the early stage of the study, the single cloud server setting was widely used in PPTD.
+The first serious discussions of privacy preservation for truth discovery was presented by Miao et al.~\cite{miao_cloud-enabled_2015}.
+They used threshold homomorphic cryptography to encrypt the sensory data and protect works' privacy. 
+But the computation overhead of homomorphic cryptography is huge, Xu et al.~\cite{xu_efficient_2019} proposed an efficient scheme based on double-masking which is a fault-tolerance perturbation-based protocol.
+% While 单服务器
+When under the single cloud server setting, workers have to participate the iterations, so that workers need to suffer additional computing and communication overhead.
+
+To reduce workers' overhead, Miao et al.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding cloud servers.
+% Different from the single cloud server setting, workers 
+After that, more and more schemes are designed under two non-colluding cloud servers setting (such as~\cite{zhang_lptd_2019,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}).
+
+On the other hand, most of the existing privacy-preserving truth discovery schemes are based on CRH algorithm, which requires workers to provide sensory data for all objects.
+But in the real-world mobile crowdsensing systems (like sparse mobile crowd sensing~\cite{wang_sparse_2016}), it is usually impractical for workers to observe all objects at a specific moment.
+The issue of data sparsity in mobile crowdsensing is getting more and more attention from recent years, especially when taking privacy preservation into account.
+% According to research~\cite{wang_sparse_2020}, it is important not only to protect the sensory data observed by workers, but also to protect what objects observed by workers.
+% There are two types of privacy need to protect, one is the data observed by workers, the other is which objects observed by workers.
+Fortunately, there is another truth discovery algorithm called CATD~\cite{li_confidence-aware_2014} for handling long-tail data, which is also suitable for the sparse data situation.
+% In comparison, CATD~\cite{li_confidence-aware_2014} is another truth discovery algorithm for handling long-tail data, which is also suitable for the sparse data situation.
+Zheng et al.~\cite{zheng_learning_2018} designed an encrypted truth discovery based on CATD under two non-colluding cloud servers where all procedures are conducted in the encrypted domain.
+However, according to research~\cite{wang_sparse_2020}, it is important not only to protect the sensory data observed by workers, but also to protect what objects observed by workers.
+% As depicted in Figure xxx, 
+% And the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} 
+% But the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} only considered the privacy of sensory data 
+There still lacks research on the two types of privayc for truth discovery in sparse crowd sensing.
 
 \section{Problem Statement}
 
+In this section, we describe the truth discovery and formulate the sparse data problem in crowd sensing systems.
+
+\subsection{Truth Discovery}
+
+In real-world crowdsensing applications, 
+
+Weight Update:
+
+$$w_k = \frac{\chi_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}^2}{\sum_M (x_m^k - x_m^*)^2}$$
+
+Truth Update:
+
+$$x_m^* = \frac{\sum_K w_k \phi_m^k x_m^k }{\sum_K \phi_m^k x_m^k}$$
+
+\subsection{System Model}
+
+
 \section{Preliminaries}
+
+\subsection{Homomorphic Encryption}
+
+\subsection{ABY2.0}
 
 \section{The Proposed Scheme}
 
