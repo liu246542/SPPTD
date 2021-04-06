@@ -39,21 +39,29 @@ Crowd Sensing, Truth Discovery, Privacy Preservation
 
 \section{Introduction}~\label{sec1}
 % What is the problem, why is the problem is important (motivation)
-Recently, developments in the field of cloud computing and Internet of Things (IoT) have led to an increased interest in crowd sensing.
-Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different terminal devices (usually called sensing workers).
-However, the quality of sensory data collected by different workers varies greatly, it is difficult for cloud servers to derive reliable aggregated result (called \textit{ground truth}).
-To address this challenge, an effective method called truth discovery has received more and more attention.
-The core principle of truth discovery is that the worker will be assigned a higher weight if the sensory data provided by him/her is closer to the ground truth, and the sensory data provided by a worker will be counted more if this worker has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
+% 介绍 mobile crowdsensing
+Recently, developments in the field of cloud computing and Internet of Things (IoT) have led to a growing interest in mobile crowdsensing (MCS).
+In a typical mobile crowdsensing systems, the back-end server (or cloud) can collect and analyze the sensory data from different mobile devices.
+ % sensory data are collected by different mobile devices (e.g., smartphones, wearables) with a highly dynamic nature.
+% the sensory data are collected from different mobile devices, and the 
+% the back-end server (or cloud) 
+% Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different terminal devices (usually called sensing workers).
+However, the quality of sensory data collected by different mobile devices may vary greatly, it is difficult for cloud servers to derive reliable aggregated result (usually referred to \textit{ground truth}).
+To address this challenge, a series of methods called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014} have been proposed, where the general principle is estimating each mobile device's reliability degree (usually referred to weight) before calculating the ground truth.
+% 估计权重，在聚合数据之前
+% an effective method 
+% received more and more attention.
 
-Though truth discovery can help the cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
+Though truth discovery can help cloud servers to derive ground truth in an effective way, it poses threats to workers' privacy directly.
 To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery (PPTD)~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
 % 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据，引出我们的 contribution
 Most of these approaches are based on CRH algorithm~\cite{li_resolving_2014}, which is a representative algorithm of truth discovery in recent years.
-The CRH algorithm requires each worker sends values of all sensed objects.
+The core principle of CRH is that the mobile device will be assigned a higher weight if the sensory values provided by him/her are closer to the ground truth, and the sensory values provided by a device will be counted more if this device has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
+Since the CRH algorithm requires that each worker has to send values of all sensed objects.
 % It seems impractical in real mobile sensing systems because 
-This method will face challenge when one worker only sends values of partial sensed objects.
+This method will face challenge if there is a worker only sends values of partial sensed objects.
 Taking the sparse mobile crowd sensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different sub-areas, which infers the sensory values provided by workers are sparse.
-In this situation, it is infeasible to apply above PPTD algorithms.
+So, it is infeasible to apply these CRH-based PPTD algorithms in this situation.
 
 % contribution
 In this paper, we propose a privacy-preserving truth discovery to deal with the situation when the sensory data are sparse.
@@ -98,28 +106,65 @@ However, according to research~\cite{wang_sparse_2020}, it is important not only
 % But the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} only considered the privacy of sensory data 
 There still lacks research on the two types of privayc for truth discovery in sparse crowd sensing.
 
-\section{Problem Statement}
+\section{System Model and Design Goals}
 
-In this section, we describe the truth discovery and formulate the sparse data problem in crowd sensing systems.
-
-\subsection{Truth Discovery}
-
-In real-world crowdsensing applications, 
-
-Weight Update:
-
-$$w_k = \frac{\chi_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}^2}{\sum_M (x_m^k - x_m^*)^2}$$
-
-Truth Update:
-
-$$x_m^* = \frac{\sum_K w_k \phi_m^k x_m^k }{\sum_K \phi_m^k x_m^k}$$
-
+In this section, we present the system model and formulate the problem we target in this paper.
+% sparse data problem in MCS.
 \subsection{System Model}
+
+Generally, our system model consists of two types of entities: a number of workers and two cloud servers. %用图说明
+The specific explanations of these entities are listed as follows.
+% worker 的作用， cloud server 的作用
+\begin{itemize}
+  \item \textbf{Workers:} Workers refers to the data providers with mobile devices (e.g., smartphones, wearables) in MCS. They are responsible for collecting sensory data of different objects. After that, these sensory data are uploaded to two cloud servers.  Since most of mobile devices are resource-limited, it is not necessary for each worker to collect sensory data of all objects.
+  \item \textbf{Clouds:} Clouds are responsible for analysing the sensory data of different objects. More specifically, after receiving the uploaded sensory data, these two cloud servers start to estimate the ground truth for each sensory object. We assume that the two cloud servers have sufficient computation and storage capabilities.
+  % the agency to analyse the 
+\end{itemize}
+% Workers are responsible for collecting sensory data of different objects.
+% After that, workers need to upload their sensory data to two cloud servers.
+In this paper, suppose that there are $M$ objects need to be collected, and the number of workers is $K$.
+We denote $x_m^k$ as the sensory data of object $m$ of worker $k$.
+Moreover, worker $k$ also maintains an indication vector $\Phi_k = \{\phi_1^k, \ldots, \phi_M^k\}$ to mark the missing sensory objects in which $\phi_m^k = 1$ means worker $k$ has collected the sensory data of object $m$, and $\phi_m^k = 0$ otherwise.
+Each worker uploads the sensory data and task vector to clouds.
+After that, two cloud servers calculate each worker's weight (denoted by $w_k$ for worker $k$), and finally estimate the ground truth for each object (denoted by $x_m^*$ for object $m$). 
+% The goal of two cloud servers is to estimate the ground truth $X^* = \{x_1^*, x_2^*, \ldots, x_M^*\}$ for each sensory object, where $x_m^*$ represents the estimated ground truth for $m$-th object.
+\subsection{Threat Model and Design Goals}
+
+In our proposed scheme, we assume that all entities are semi-honest, which means that no matter workers or coulds will honestly execute the protocols, but they are also curious about participants' privacy, such as workers' sensory data, worker's weights.
+Moreover, the two cloud servers in our scheme are non-colluding, which is a common assumption in most two-server models~\cite{zhang_lptd_2019,zhang_reliable_2019}.
+% 不考虑 恶意 workers， 不考虑 lazy workers
+Note that the lazy workers are not considered, since this issue can be solved by integrating incentive mechanism~\cite{xue_inpptd_2020}.
+% The consideration of malicious workers are also not involved, 
+% \section{Problem Statement}
+% In this section, we describe the truth discovery and formulate the sparse data problem in crowd sensing systems.
+
+The main purpose of our shceme is to protect workers' privacy.
+Since the sensory data providered by workers are sparse, we should not only consider the privacy of sensory data, but also consider the privacy of indication vectors.
+
+% there are two kind of privacy need to be considered.
+% The first one is the 
+% of workers while the 
+% workers' privacy while they 
+% protecting workers' privacy 
+% The design goals of our proposed scheme can be 
+
+% \subsection{Background on Truth Discovery}
+
+% In real-world crowdsensing applications, truth discovery is 
+% Weight Update:
+
+% $$w_k = \frac{\chi_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}^2}{\sum_M (x_m^k - x_m^*)^2}$$
+
+% Truth Update:
+
+% $$x_m^* = \frac{\sum_K w_k \phi_m^k x_m^k }{\sum_K \phi_m^k x_m^k}$$
+
+% \subsection{System Model}
 
 
 \section{Preliminaries}
 
-\subsection{Homomorphic Encryption}
+% \subsection{Homomorphic Encryption}
 
 \subsection{ABY2.0}
 
