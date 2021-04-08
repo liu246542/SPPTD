@@ -175,7 +175,7 @@ In general, truth discovery algorithm consists of two parts: weight update and t
 
 \textit{1) Weight Update:} Given the ground truth, the weight for each worker $k$ is computed as
 \begin{equation}
-w_k = \log (\frac{\chi^2_{(1-\alpha/2,\sum_{m=1}^M \phi_m^k)}}{\sum_{m=1}^M \phi_m^k(x_m^k - x_m^*)^2})
+w_k = \frac{\chi^2_{(1-\alpha/2,\sum_{m=1}^M \phi_m^k)}}{\sum_{m=1}^M \phi_m^k(x_m^k - x_m^*)^2}
 \end{equation}
 Note that $\chi^2$ denotes the Chi-squared distribution, and the constant $\alpha$ denotes the significant level which is usually a small number such as 0.05.
 
@@ -189,8 +189,27 @@ In real applications, to achieve more accurate ground truth values, weight updat
 
 \subsection{ABY2.0}
 
-ABY2.0 is an efficient mixed-protocol framework for secure two-party computation~\cite{patra_aby20_2020}.
-In this paper, we make use of 
+% for secure two-party computation,
+ABY2.0 is an efficient mixed-protocol framework which allows two parties to jointly evaluate a function based on their private inputs~\cite{patra_aby20_2020}.
+In this paper, we make use of arithmetic sharing and multiplication protocol of ABY2.0 as the building blocks.
+Specificly, we use $\{S_0, S_1\}$ to denote the two parties, and all protocols are executed over an $\ell$-bit ring denoted by $\mathbb{Z}_{2^\ell}$.
+For a value $v\in\mathbb{Z}_{2^\ell}$, there are two sharing semantics in ABY2.0, as denoted by $[\cdot]$-sharing and $\langle \cdot \rangle$-sharing as follows.
+
+\textit{$[\cdot]$-sharing:} A value $v\in\mathbb{Z}_{2^\ell}$ is said to be $[\cdot]$-sharing among $\{S_0, S_1\}$, which means the party $S_i$ for $i\in\{0,1\}$ holds $[v]_i$ such that $v = [v]_0 + [v]_1$.
+
+\textit{$\langle \cdot \rangle$-sharing:} A value $v\in\mathbb{Z}_{2^\ell}$ is said to be $\langle \cdot \rangle$-sharing among $\{S_0, S_1\}$, which means the party $S_i$ for $i\in\{0,1\}$ holds $\langle v \rangle_i = (\Delta_v, [\delta_v]_i)$, where $\Delta_v = v + \delta_v$.
+
+It is clear that both $[\cdot]$-sharing and $\langle \cdot \rangle$-sharing supoort linear operations.
+For example, given the $\langle \cdot \rangle$-sharing of $a,b$ and public constants $c_1,c_2$, $S_i$ can locally compute $\langle y_i \rangle = c_1 \cdot \langle a \rangle_i + c_2 \cdot \langle b \rangle_i$.
+But the multiplication protocol is non-trivial, we give a brief describtion at a high level.
+For more detail, please refer to~\cite{patra_aby20_2020}.
+
+The multiplication protocol enables two parties to generate $\langle y \rangle$ where $y = ab$ when given the $\langle \cdot \rangle$-sharing of $a,b$.
+
+
+
+
+% Specifically, we 
 
 
 \section{The Proposed Scheme}
