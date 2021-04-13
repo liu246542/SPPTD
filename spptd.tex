@@ -164,7 +164,8 @@ Since the sensory data providered by workers are sparse, we should not only cons
 
 \section{Preliminaries}
 
-In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and ABY2.0~\cite{patra_aby20_2020}.
+In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and additively homomorphic cryptosystem.
+% ABY2.0~\cite{patra_aby20_2020}.
 
 % \subsection{Homomorphic Encryption}
 
@@ -188,6 +189,24 @@ In real applications, to achieve more accurate ground truth values, weight updat
 
 \subsection{Additively Homomorphic Cryptosystem}
 
+We adopt additive homomorphic cryptosystem in our proposed scheme.
+Generally, an additive homomorphic cryptosystem consists of the following probabilistic poly-time algorithms.
+
+\begin{itemize}
+  \item $\mathsf{Setup}(1^\kappa)\to pp$: Taken the input of security parameter $\kappa$, the algorithm returns the public parameter $pp$.
+  \item $\mathsf{KeyGen}(1^\kappa)\to (pk, sk)$: Taken the input of security parameter $\kappa$, the algorithm returns the public key $pk$ and private key $sk$.
+  \item $\mathsf{Enc}_{pk}(m)\to c$: Given the message $m$, the encryption algorithm outputs $c$ which is the ciphertext of message $m$.
+  \item $\mathsf{Dec}_{sk}(c)\to m$: Given the ciphertext $c$, the decryption algorithm outputs the corresponding plaintext $m$.
+\end{itemize}
+
+We called that above public-key cryptosystem is additively homomorphic if it satisfies the following properties.
+
+\begin{itemize}
+  \item Given two ciphertexts $c_1 = \mathsf{Enc}_{pk}(m_1)$ and $c_2 = \mathsf{Enc}_{pk}(m_2)$, it holds that $\mathsf{Dec}_{sk}(c_1 \cdot c_2) = m_1 + m_2$.
+  \item Given a constant $a$ and a ciphertext $c=\mathsf{Enc}_{pk}(m)$, it holds that $\mathsf{Dec}_{sk}(c^a) = a\cdot m$.
+\end{itemize}
+
+
 \iffalse
 \subsection{ABY2.0}
 
@@ -209,12 +228,14 @@ For more detail, please refer to~\cite{patra_aby20_2020}.
 The multiplication protocol enables two parties to generate $\langle y \rangle$ where $y = ab$ when given the $\langle \cdot \rangle$-sharing of $a,b$.
 \fi
 
-
-
 % Specifically, we 
 
-
 \section{The Proposed Scheme}
+\subsection{Overview}
+\subsection{Initialization Phase}
+\subsection{Secure Weight Update}
+\subsection{Secure Truth Update}
+
 
 \section{Performance Evaluation}
 
