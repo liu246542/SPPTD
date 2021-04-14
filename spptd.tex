@@ -106,11 +106,11 @@ However, according to research~\cite{wang_sparse_2020}, it is important not only
 % But the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} only considered the privacy of sensory data 
 There still lacks research on the two types of privayc for truth discovery in sparse crowd sensing.
 
-\section{System Model and Design Goals}
+\section{System Model and Design Goals}\label{sec3}
 
 In this section, we present the system model and formulate the problem we target in this paper.
 % sparse data problem in MCS.
-\subsection{System Model}
+\subsection{System Model}\label{sec3-A}
 
 Generally, our system model consists of two types of entities: a number of workers and two cloud servers. %用图说明
 The specific explanations of these entities are listed as follows.
@@ -162,7 +162,7 @@ Since the sensory data providered by workers are sparse, we should not only cons
 % \subsection{System Model}
 
 
-\section{Preliminaries}
+\section{Preliminaries}\label{sec4}
 
 In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and additively homomorphic cryptosystem.
 % ABY2.0~\cite{patra_aby20_2020}.
@@ -187,7 +187,7 @@ x_m^* = \frac{\sum_{k=1}^K \phi_m^k w_k x_m^k}{\sum_{k=1}^K \phi_m^k w_k }
 
 In real applications, to achieve more accurate ground truth values, weight update and truth update should be executed iteratively until the convergence criteria is met.
 
-\subsection{Additively Homomorphic Cryptosystem}
+\subsection{Additively Homomorphic Cryptosystem}\label{sec4-b}
 
 We adopt additive homomorphic cryptosystem in our proposed scheme.
 Generally, an additive homomorphic cryptosystem consists of the following probabilistic poly-time algorithms.
@@ -230,11 +230,42 @@ The multiplication protocol enables two parties to generate $\langle y \rangle$ 
 
 % Specifically, we 
 
-\section{The Proposed Scheme}
+\section{The Proposed Scheme}\label{sec5}
+
+In this section, we describe the proposed scheme in detail.
+
 \subsection{Overview}
+
+% 设计目标场景
+As we mentioned above, our privacy-preserving truth discovery scheme is designed for scenarios where the sensory data provided by workers are sparse.
+In the proposed scheme, workers need to upload indication vectors to mark which objects they observed.
+Therefore, it is a challenge to protect the privacy of indication vectors, sensory data and workers' weight at the same time.
+Although applying GC is a straightforward method to achieve strong privacy preservation, the generation of GC is still a cumbersome task.
+% 包含
+
+To protect workers' privacy and make the procedure efficient, we design a novel protocol by adopting additively homomorphic cryptosystem.
+The whole procedure can be divided into three phases: {\em Initialization Phase}, {\em Sensing Phase}, {\em Iteration Phase}.
+% At a high level, 
+
 \subsection{Initialization Phase}
-\subsection{Secure Weight Update}
-\subsection{Secure Truth Update}
+
+As described in Section~\ref{sec3-A}, assume that there are $K$ participating workers and $M$ sensing objects in the system.
+In this phase, $S_0$ first generates an asymmetric key pair $(pk, sk)$ of the additively homomorphic cryptosystem by invoking $\mathsf{KeyGen}(\cdot)$ in Section~\ref{sec4-b}.
+Then $S_0$ sets a small number for the significant level $\alpha$ ($\alpha$ is set to 0.05 by default), and publishes the public key $pk$ and significant level $\alpha$.
+
+% the public key $pk$ and private $sk$ by invoking $\mathsf{KeyGen}(\cdot)$ described in Section~\ref{sec4-b}.
+
+\subsection{Report Phase}
+
+In this phase, each worker collects sensory data for distinct objects.
+Taking worker $k$ as an example, it can obtains a set of sensory data $\{x_m^k\}_{m=1}^M$ and an indication vector $\{\phi_m^k\}_{m=1}^M$.
+
+% 有的 worker 不想做全部的任务 （放到 introduction 部分）
+% After that, each worker obtains a set of sensory data and an indication vector
+
+
+\subsection{Secure Weight Update Phase}
+\subsection{Secure Truth Update Phase}
 
 
 \section{Performance Evaluation}
