@@ -258,13 +258,55 @@ Then $S_0$ sets a small number for the significant level $\alpha$ ($\alpha$ is s
 \subsection{Report Phase}
 
 In this phase, each worker collects sensory data for distinct objects.
-Taking worker $k$ as an example, it can obtains a set of sensory data $\{x_m^k\}_{m=1}^M$ and an indication vector $\{\phi_m^k\}_{m=1}^M$.
-
+Taking worker $k$ as an example, after obtaining a set of sensory data $\{x_m^k\}_{m=1}^M$ and an indication vector $\{\phi_m^k\}_{m=1}^M$, worker $k$ computes $y_k = \chi^2_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}$.
+Then for each object $m$, worker $k$ computes $\tilde{\phi}_m^k = \phi_m^k / y_k$.
+Finally, worker $k$ computes additive shares of $x_m^k$ and $\tilde{\phi}_m^k$ respectively, i.e., $x_m^k = x_{m,0}^k + x_{m,1}^k$, $\tilde{\phi}_m^k = \tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k$, and uploads $\{x_{m,0}^k, \tilde{\phi}_{m,0}^k\}_{m=1}^M$ to $S_0$, uploads $\{x_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$ to $S_1$.
+When the upload process is complete, worker $k$ can go offline.
 % 有的 worker 不想做全部的任务 （放到 introduction 部分）
 % After that, each worker obtains a set of sensory data and an indication vector
 
-
 \subsection{Secure Weight Update Phase}
+
+In this phase, each worker's weight is estimated based on the ground truth and uploaded data.
+For worker $k$, $S_0$ first computes $C_0^k = \mathsf{Enc}_{pk}(\sum_{m=1}^M [\tilde{\phi}_{m,0}^k\cdot (x_{m,0}^k)^2])$ for each worker $k$.
+Then $S_0$ sends $\{\mathsf{Enc}_{pk}(x_{m,0}^k)\}_{m=1}^M$, $\{\mathsf{Enc}_{pk}((x_{m,0}^k)^2)\}_{m=1}^M$, $\{\mathsf{Enc}_{pk}(\tilde{\phi}_{m,0}^k)\}_{m=1}^M$ and $\{\mathsf{Enc}_{pk}(\tilde{\phi}_{m,0}^k x_{m,0}^k)\}_{m=1}^M$ to $S_1$.
+After receiving the ciphertexts, $S_1$ computes
+\begin{equation}
+  \begin{split}
+  C_1^k = &\prod_{m=1}^M\left[ \mathsf{Enc}_{pk}{[(x_{m,0}^k)^2]}^{\tilde{\phi}_{m,1}^k} \right] \\
+        = &\mathsf{Enc}_{pk}\left(\sum_{m=1}^M \tilde{\phi}_{m,1}^k(x_{m,0}^k)^2\right)
+  \end{split}
+\end{equation}
+
+\begin{equation}
+  \begin{split}
+  C_2^k = & \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}(x_{m,0}^k)^{2\cdot (x_{m,1}^k - x_m^*)\cdot \tilde{\phi}_{m,1}^k} \cdot \mathsf{Enc}_{pk}(\tilde{\phi}_{m,0}^k x_{m,0}^k)^{2\cdot (x_{m,1}^k - x_m^*)} \right] \\
+      = & \mathsf{Enc}_{pk}(\sum_{m=1}^M 2\cdot\tilde{\phi}_m^k (x_{m,1}^k-x_m^*)
+  \end{split}
+\end{equation}
+
+\begin{equation}
+  \begin{split}
+    C_3^k & = \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}(\tilde{\phi}_{m,0}^k)^{(x_{m,1}^k - x_m^*)^2} \right] \\
+    & = \mathsf{Enc}_{pk}(\sum_{m=1}^M \tilde{\phi}_{m,0}^k \cdot (x_{m,1}^k - x_m^*)^2)
+  \end{split}
+\end{equation}
+
+
+\begin{equation}
+  \begin{split}
+    C_4^k & = \mathsf{Enc}_{pk}(\sum_{m=1}^M \tilde{\phi}_{m,1}^k \cdot (x_{m,1}^k - x_m^*)^2)
+  \end{split}
+\end{equation}
+
+Then $S_1$ computes $C_1^k\cdot C_2^k\cdot C_3^k \cdot C_4^k$ and obtains 
+
+\begin{equation}
+  \begin{split}
+    EW_k  \mathrel{\phantom{=}}
+  \end{split}
+\end{equation}
+
 \subsection{Secure Truth Update Phase}
 
 
