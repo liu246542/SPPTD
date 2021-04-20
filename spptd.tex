@@ -21,66 +21,71 @@
 }
 
 \author{\IEEEauthorblockN{xxx}
-\IEEEauthorblockA{\textit{Department of Electronic and Engineering} \\
-\textit{University of Science and Technology of China}\\
+\IEEEauthorblockA{\textit{University of Science and Technology of China}\\
 Hefei, Anhui 230027, China \\
 xxx@mail.ustc.edu.cn}
 }
 \maketitle
 
 \begin{abstract}
-% 1.Motivation 2.Problem Statement 3.Approach 4.Results 5.Conclusions
-
+Truth discovery is an effective method to infer the truthful information among a large amount of sensory data in mobile crowdsensing systems.
+Privacy-preserving truth discovery schemes require the cloud servers should not access each participant's sensory data directly when executing truth discovery.
+In real practice, it is common that the sensory data collected by some participants are sparse, which implies that the privacy of whether a participant collects a specific data also need to be protected.
+However, existing privacy-preserving truth discovery schemes do not consider sparse data scenarios in crowdsensing systems.
+In this paper, we address the privacy issues in truth discovery when sensory data are sparse.
+By employing additively homomorphic cryptosystem with two non-colluding servers setting, we design an efficient privacy-preserving truth discovery scheme to guarantee strong privacy even in sparse data scenarios.
+Moreover, the security analysis and performance evaluation show that our proposed scheme can satisfy the security and privacy-preserving requirements with both low computation and communication overheads.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Crowd Sensing, Truth Discovery, Privacy Preservation
+Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
 \end{IEEEkeywords}
 
 \section{Introduction}~\label{sec1}
-% What is the problem, why is the problem is important (motivation)
-% 介绍 mobile crowdsensing
-Recently, developments in the field of cloud computing and Internet of Things (IoT) have led to a growing interest in mobile crowdsensing (MCS).
-In a typical mobile crowdsensing systems, the back-end server (or cloud) can collect and analyze the sensory data from different mobile devices.
+Over the past few years, developments in the field of cloud computing and Internet of Things have led to a growing interest in mobile crowdsensing systems.
+In a typical mobile crowdsensing system, the cloud server can collect and analyze the sensory data from different mobile devices (e.g., smartphones, wearables and on-board computers, usually referred to {\em workers}).
  % sensory data are collected by different mobile devices (e.g., smartphones, wearables) with a highly dynamic nature.
-% the sensory data are collected from different mobile devices, and the 
-% the back-end server (or cloud) 
 % Benefiting from crowd sensing, a cloud server can collect and analyze the sensory data from different terminal devices (usually called sensing workers).
-However, the quality of sensory data collected by different mobile devices may vary greatly, it is difficult for cloud servers to derive reliable aggregated result (usually referred to \textit{ground truth}).
-To address this challenge, a series of methods called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014} have been proposed, where the general principle is estimating each mobile device's reliability degree (usually referred to weight) before calculating the ground truth.
-% 估计权重，在聚合数据之前
-% an effective method 
-% received more and more attention.
+However, the quality of sensory data provided by different workers may vary greatly, it is difficult for cloud servers to derive reliable aggregated result.
+To address this challenge, a series of methods called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} have been proposed, where the general principle is to estimate each worker's reliability degree (usually referred to {\em weight}) before calculating the truthful result (usually referred to {\em ground truth}).
 
-Though truth discovery can help cloud servers to derive ground truth in an effective way, it poses threats to workers' privacy directly.
-To achieve privacy preservation, a considerable amount of work has been proposed for privacy-preserving truth discovery (PPTD)~\cite{miao_cloud-enabled_2015,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
+Though truth discovery can help cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
+To achieve privacy preservation, a considerable amount of work has been proposed using different alternatives\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
 % 大多数 基于 CRH， 默认 所有终端 观测 所有对象数据，引出我们的 contribution
 Most of these approaches are based on CRH algorithm~\cite{li_resolving_2014}, which is a representative algorithm of truth discovery in recent years.
-The core principle of CRH is that the mobile device will be assigned a higher weight if the sensory values provided by him/her are closer to the ground truth, and the sensory values provided by a device will be counted more if this device has a higher weight~\cite{miao_cloud-enabled_2015,xu_efficient_2019}.
-Since the CRH algorithm requires that each worker has to send values of all sensed objects.
+The core principle of CRH is that a worker will be assigned a higher weight if the corresponding sensory data are closer to the ground truths, and the sensory data provided by a worker will be counted more if this worker has a higher weight~\cite{xu_efficient_2019}.
+Since the CRH algorithm requires that each worker has to provide data over all sensed objects, it will face challenge when a worker only provides data over partial sensed objects for some reasons.
 % It seems impractical in real mobile sensing systems because 
-This method will face challenge if there is a worker only sends values of partial sensed objects.
-Taking the sparse mobile crowd sensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different sub-areas, which infers the sensory values provided by workers are sparse.
-So, it is infeasible to apply these CRH-based PPTD algorithms in this situation.
+Taking the sparse mobile crowd sensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different sub-areas.
+To collect sensory for all sensed objects, workers need to access into distinct sub-areas within a specific period, which is impractical.
+% which infers the sensory values provided by workers are sparse.
+In this scenario, the sensory data provided by workers are usually sparse.
+So, it is infeasible to apply recent CRH-based privacy-preserving truth discovery schemes in this situation.
 
 % contribution
-In this paper, we propose a privacy-preserving truth discovery to deal with the situation when the sensory data are sparse.
+In this paper, we address the privacy issues in sparse data for truth discovery, and propose a privacy-preserving truth discovery scheme to deal with the issues.
 In particular, our contributions are summarized in the following:
-
 \begin{itemize}
-  \item We present a novel PPTD framework which address the issues of data sparsity based on the CATD algorithm.
-  \item With the help of secure two-party computation, our proposed scheme provide strong privacy for workers in an efficient way.
-  \item We conduct extensive experiments to evaluate the performance of our proposed scheme, and the results demonstrate that our design is practical in crowd sensing systems.
+  \item We identify the privacy requirements in the situation of data sparsity for truth discovery, and design a novel privacy-preserving truth discovery scheme based on CATD algorithm.
+  % present a novel privacy-preserving truth discovery schemes which 
+   % resolve the issues of data sparsity based on the CATD algorithm rather than .
+  \item By employing additively homomorphic cryptosystem with two non-colluding
+servers setting, our proposed scheme provides strong privacy for workers in an efficient way where workers do not need to participate the iteration procedure.
+  \item We conduct extensive experiments to evaluate the performance of the proposed scheme, and the results demonstrate that our design is practical in real mobile crowdsensing systems.
 \end{itemize}
 
-The remainder of this paper is organized as follows. ......
-
+The remainder of this paper is organized as follows.
+Section~\ref{sec2} introduces the related work.
+The system model and design goals are given in Section~\ref{sec3}.
+In Section~\ref{sec4}, we describe the truth discovery algorithm and additively homomorphic cryptosystem.
+Section~\ref{sec5} illustrates our proposed scheme in detail.
+After that, security analysis and performance analysis are provided in Section~\ref{sec5}.
+Finally, Section~\ref{sec6} concludes this paper.
 
 \section{Related Work}~\label{sec2}
 % 基于 CRH
 % 基于 CATD
 % 为什么它们都不行
-
 At the early stage of the study, the single cloud server setting was widely used in PPTD.
 The first serious discussions of privacy preservation for truth discovery was presented by Miao et al.~\cite{miao_cloud-enabled_2015}.
 They used threshold homomorphic cryptography to encrypt the sensory data and protect works' privacy. 
@@ -259,7 +264,7 @@ Then $S_0$ sets a small number for the significant level $\alpha$ ($\alpha$ is s
 
 % the public key $pk$ and private $sk$ by invoking $\mathsf{KeyGen}(\cdot)$ described in Section~\ref{sec4-b}.
 
-\subsection{Report Phase}
+\subsection{Upload Phase}
 
 In this phase, each worker collects sensory data for distinct objects.
 Taking worker $k$ as an example, after obtaining a set of sensory data $\{x_m^k\}_{m=1}^M$ and an indication vector $\{\phi_m^k\}_{m=1}^M$, worker $k$ computes $y_k = \chi^2_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}$.
@@ -367,8 +372,8 @@ Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
   \end{split}
 \end{equation}
 
-
-\section{Performance Evaluation}
+\section{Performance Evaluation}\label{sec5}
+\section{Conclusion}\label{sec6}
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
