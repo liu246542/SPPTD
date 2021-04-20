@@ -79,18 +79,21 @@ Section~\ref{sec2} introduces the related work.
 The system model and design goals are given in Section~\ref{sec3}.
 In Section~\ref{sec4}, we describe the truth discovery algorithm and additively homomorphic cryptosystem.
 Section~\ref{sec5} illustrates our proposed scheme in detail.
-After that, security analysis and performance analysis are provided in Section~\ref{sec5}.
-Finally, Section~\ref{sec6} concludes this paper.
+After that, security analysis and performance analysis are provided in Section~\ref{sec6}.
+Finally, Section~\ref{sec7} concludes this paper.
 
 \section{Related Work}~\label{sec2}
 % 基于 CRH
 % 基于 CATD
 % 为什么它们都不行
-At the early stage of the study, the single cloud server setting was widely used in PPTD.
+At the early stage of the study, the single cloud server setting was widely adopted in privacy-preserving truth discovery.
 The first serious discussions of privacy preservation for truth discovery was presented by Miao et al.~\cite{miao_cloud-enabled_2015}.
-They used threshold homomorphic cryptography to encrypt the sensory data and protect works' privacy. 
-But the computation overhead of homomorphic cryptography is huge, Xu et al.~\cite{xu_efficient_2019} proposed an efficient scheme based on double-masking which is a fault-tolerance perturbation-based protocol.
-% While 单服务器
+They utilized threshold paillier cryptosystem~\cite{damgard_generalisation_2001} to encrypt the sensory data so that the works' privacy can be preserved.
+But the computation overhead of threshold homomorphic cryptography is huge.
+To reduce the computation overhead, Xu et al.~\cite{xu_efficient_2019} proposed an efficient scheme based on a fault-tolerance perturbation-based protocol called double-masking.
+Benefit from the properties of double-masking, workers can drop out at any time point.
+% their proposed mechanism is robust to workers dropping out at any time point.
+However, 
 When under the single cloud server setting, workers have to participate the iterations, so that workers need to suffer additional computing and communication overhead.
 
 To reduce workers' overhead, Miao et al.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding cloud servers.
@@ -372,8 +375,8 @@ Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
   \end{split}
 \end{equation}
 
-\section{Performance Evaluation}\label{sec5}
-\section{Conclusion}\label{sec6}
+\section{Performance Evaluation}\label{sec6}
+\section{Conclusion}\label{sec7}
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
