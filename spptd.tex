@@ -8,6 +8,8 @@
 \usepackage{textcomp}
 \usepackage[OT1]{fontenc}
 \usepackage{xcolor}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
 % \usepackage[colorlinks]{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -33,7 +35,7 @@ Privacy-preserving truth discovery schemes require the cloud servers should not 
 In real practice, it is common that the sensory data collected by some participants are sparse, which implies that the privacy of whether a participant collects a specific data also need to be protected.
 However, existing privacy-preserving truth discovery schemes do not consider sparse data scenarios in crowdsensing systems.
 In this paper, we address the privacy issues in truth discovery when sensory data are sparse.
-By employing additively homomorphic cryptosystem with two non-colluding servers setting, we design an efficient privacy-preserving truth discovery scheme to guarantee strong privacy even in sparse data scenarios.
+By employing additively homomorphic cryptosystem with two non-colluding servers, we design an efficient privacy-preserving truth discovery scheme to guarantee strong privacy even in sparse data scenarios.
 Moreover, the security analysis and performance evaluation show that our proposed scheme can satisfy the security and privacy-preserving requirements with both low computation and communication overheads.
 \end{abstract}
 
@@ -70,7 +72,7 @@ In particular, our contributions are summarized in the following:
   % present a novel privacy-preserving truth discovery schemes which 
    % resolve the issues of data sparsity based on the CATD algorithm rather than .
   \item By employing additively homomorphic cryptosystem with two non-colluding
-servers setting, our proposed scheme provides strong privacy for workers in an efficient way where workers do not need to participate the iteration procedure.
+servers, our proposed scheme provides strong privacy for workers in an efficient way where workers do not need to participate the iteration procedure.
   \item We conduct extensive experiments to evaluate the performance of the proposed scheme, and the results demonstrate that our design is practical in real mobile crowdsensing systems.
 \end{itemize}
 
@@ -79,24 +81,28 @@ Section~\ref{sec2} introduces the related work.
 The system model and design goals are given in Section~\ref{sec3}.
 In Section~\ref{sec4}, we describe the truth discovery algorithm and additively homomorphic cryptosystem.
 Section~\ref{sec5} illustrates our proposed scheme in detail.
-After that, security analysis and performance analysis are provided in Section~\ref{sec6}.
-Finally, Section~\ref{sec7} concludes this paper.
+After that, security analysis and performance evaluation are provided in Section~\ref{sec6} and Section~\ref{sec7} respectively.
+Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
 % 基于 CRH
 % 基于 CATD
 % 为什么它们都不行
-At the early stage of the study, the single cloud server setting was widely adopted in privacy-preserving truth discovery.
+Recent studies have attempted to employ cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery.
+Generally, these schemes can be divided into single server setting and two non-colluding servers setting.
+
+% At the early stage of the study, the single cloud server setting was widely adopted in privacy-preserving truth discovery.
+% The single server setting is a common architecture in mobile crowdsensing
+For the single server setting, ...({\em rewrite})
 The first serious discussions of privacy preservation for truth discovery was presented by Miao et al.~\cite{miao_cloud-enabled_2015}.
 They utilized threshold paillier cryptosystem~\cite{damgard_generalisation_2001} to encrypt the sensory data so that the works' privacy can be preserved.
 But the computation overhead of threshold homomorphic cryptography is huge.
 To reduce the computation overhead, Xu et al.~\cite{xu_efficient_2019} proposed an efficient scheme based on a fault-tolerance perturbation-based protocol called double-masking.
 Benefit from the properties of double-masking, workers can drop out at any time point.
 % their proposed mechanism is robust to workers dropping out at any time point.
-However, 
-When under the single cloud server setting, workers have to participate the iterations, so that workers need to suffer additional computing and communication overhead.
+However, while under the single server setting, workers have to participate the iterations, so that workers need to suffer additional computing and communication overhead.
 
-To reduce workers' overhead, Miao et al.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding cloud servers.
+To reduce workers' overhead, Miao et al.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding servers.
 % Different from the single cloud server setting, workers 
 After that, more and more schemes are designed under two non-colluding cloud servers setting (such as~\cite{zhang_lptd_2019,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}).
 
@@ -112,14 +118,12 @@ However, according to research~\cite{wang_sparse_2020}, it is important not only
 % As depicted in Figure xxx, 
 % And the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} 
 % But the existing privacy-preserving scheme based on CATD~\cite{zheng_learning_2018} only considered the privacy of sensory data 
-There still lacks research on the two types of privayc for truth discovery in sparse crowd sensing.
+To the best of our knowledge, there still lacks research on the two types of privayc for truth discovery in such scenarios.
 
 \section{System Model and Design Goals}\label{sec3}
-
 In this section, we present the system model and formulate the problem we target in this paper.
 % sparse data problem in MCS.
 \subsection{System Model}\label{sec3-A}
-
 Generally, our system model consists of two types of entities: a number of workers and two cloud servers. %用图说明
 The specific explanations of these entities are listed as follows.
 % worker 的作用， cloud server 的作用
@@ -171,14 +175,12 @@ Since the sensory data providered by workers are sparse, we should not only cons
 
 
 \section{Preliminaries}\label{sec4}
-
 In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and additively homomorphic cryptosystem.
 % ABY2.0~\cite{patra_aby20_2020}.
 
 % \subsection{Homomorphic Encryption}
 
 \subsection{CATD}
-
 % CATD 强调与 worker 提交的数量，。。。
 In general, truth discovery algorithm consists of two parts: weight update and truth update.
 
@@ -213,11 +215,6 @@ We called that above public-key cryptosystem is additively homomorphic if it sat
   \item Given two ciphertexts $c_1 = \mathsf{Enc}_{pk}(m_1)$ and $c_2 = \mathsf{Enc}_{pk}(m_2)$, it holds that $\mathsf{Dec}_{sk}(c_1 \cdot c_2) = m_1 + m_2$.
   \item Given a constant $a$ and a ciphertext $c=\mathsf{Enc}_{pk}(m)$, it holds that $\mathsf{Dec}_{sk}(c^a) = a\cdot m$.
 \end{itemize}
-
-\subsection{Secret Sharing}
-
-To be complete
-
 
 \iffalse
 \subsection{ABY2.0}
@@ -256,7 +253,7 @@ Although applying GC is a straightforward method to achieve strong privacy prese
 % 包含
 
 To protect workers' privacy and make the procedure efficient, we design a novel protocol by adopting additively homomorphic cryptosystem.
-The whole procedure can be divided into three phases: {\em Initialization Phase}, {\em Sensing Phase}, {\em Iteration Phase}.
+The whole procedure can be divided into three phases: {\em Initialization Phase}, {\em Upload Phase}, {\em Secure Weight Update Phase} and {\em Secure Truth Update Phase}.
 % At a high level, 
 
 \subsection{Initialization Phase}
@@ -272,7 +269,7 @@ Then $S_0$ sets a small number for the significant level $\alpha$ ($\alpha$ is s
 In this phase, each worker collects sensory data for distinct objects.
 Taking worker $k$ as an example, after obtaining a set of sensory data $\{x_m^k\}_{m=1}^M$ and an indication vector $\{\phi_m^k\}_{m=1}^M$, worker $k$ computes $y_k = \chi^2_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}$.
 Then for each object $m$, worker $k$ computes $\tilde{\phi}_m^k = \phi_m^k / y_k$.
-Finally, worker $k$ computes additive shares of $x_m^k$ and $\tilde{\phi}_m^k$ respectively, i.e., $x_m^k = x_{m,0}^k + x_{m,1}^k$, $\tilde{\phi}_m^k = \tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k$, and uploads $\{x_{m,0}^k, \tilde{\phi}_{m,0}^k\}_{m=1}^M$ to $S_0$, uploads $\{x_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$ to $S_1$.
+Finally, worker $k$ computes additive shares ({\em need to clarify}) of $x_m^k$, $\phi_m^k$ and $\tilde{\phi}_m^k$ respectively, i.e., $x_m^k = x_{m,0}^k + x_{m,1}^k$, $\phi_m^k = \phi_{m,0}^k + \phi_{m,1}^k$, $\tilde{\phi}_m^k = \tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k$, and uploads $\{x_{m,0}^k, \phi_{m,0}^k ,\tilde{\phi}_{m,0}^k\}_{m=1}^M$ to $S_0$, uploads $\{x_{m,1}^k, \phi_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$ to $S_1$.
 When the upload process is complete, worker $k$ can go offline.
 % 有的 worker 不想做全部的任务 （放到 introduction 部分）
 % After that, each worker obtains a set of sensory data and an indication vector
@@ -284,7 +281,7 @@ Note that if this phase is executed for the first time, we choose the ground tru
 For worker $k$, $S_0$ first computes $C_0^k$ as: 
 \begin{equation}
   \begin{split}
-  C_0^k = \mathsf{Enc}_{pk}(\sum_{m=1}^M [\tilde{\phi}_{m,0}^k\cdot (x_{m,0}^k)^2])
+  C_0^k = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,0}^k \left(x_{m,0}^k\right)^2\right]
   \end{split}
 \end{equation}
 Then $S_0$ encrypts $\{x_{m,0}^k, (x_{m,0}^k)^2, \tilde{\phi}_{m,0}^k,\tilde{\phi}_{m,0}^k\cdot x_{m,0}^k\}_{m,k=1}^{M,K}$ respectively.
@@ -297,27 +294,31 @@ Finally, $S_0$ sends $\{C_0^k, C_{pack1}^k\}_{k=1}^K$ to $S_1$.
 Upon receiving the ciphertexts, $S_1$ computes $C_1^k$,$C_2^k$,$C_3^k$,$C_4^k$ as follows.
 \begin{equation}
   \begin{split}
-  C_1^k = &\prod_{m=1}^M\left[ \mathsf{Enc}_{pk}{[(x_{m,0}^k)^2]}^{\tilde{\phi}_{m,1}^k} \right]
+  C_1^k = &\prod_{m=1}^M\left[ \mathsf{Enc}_{pk}{\left[\left(x_{m,0}^k\right)^2\right]}^{\tilde{\phi}_{m,1}^k} \right] \\
+  = &\mathsf{Enc}_{pk}\left[ \sum_{m=1}^M \tilde{\phi}_{m,1}^k \left(x_{m,0}^k\right)^2\right]
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-  C_2^k = & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(x_{m,0}^k\right)\right]^{2(x_{m,1}^k - x_m^*)\tilde{\phi}_{m,1}^k}\right] \cdot \\
-          & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k x_{m,0}^k\right)\right]^{2(x_{m,1}^k - x_m^*)} \right] \\
+  C_2^k = & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)\tilde{\phi}_{m,1}^k}\right] \cdot \\
+          & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)} \right] \\
+          % = & \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2(x_{m,1}^k - x_m^*)(\tilde{\phi}_{m,1}^k x_{m,0}^k +   \tilde{\phi}_{m,0}x_{m,0}^k)\right]  \\
+          = & \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2\tilde{\phi}_m^k x_{m,0}^k\left(x_{m,1}^k - x_m^*\right)\right]  \\
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-    C_3^k & = \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}(\tilde{\phi}_{m,0}^k)^{(x_{m,1}^k - x_m^*)^2} \right]
+    C_3^k & = \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k\right)^{\left(x_{m,1}^k - x_m^*\right)^2} \right] \\
+    & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2\left(x_{m,1}^k - x_m^*\right)\tilde{\phi}_{m,0}^k\right] \\
     % & = \mathsf{Enc}_{pk}(\sum_{m=1}^M \tilde{\phi}_{m,0}^k \cdot (x_{m,1}^k - x_m^*)^2)
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-    C_4^k & = \mathsf{Enc}_{pk}(\sum_{m=1}^M \tilde{\phi}_{m,1}^k \cdot (x_{m,1}^k - x_m^*)^2)
+    C_4^k & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,1}^k \cdot \left(x_{m,1}^k - x_m^*\right)^2\right]
   \end{split}
 \end{equation}
-Then $S_1$ choose a random value $b_k$ and computes the ciphertexts $C_k$ as 
+Then $S_1$ chooses a random value $b_k$ and computes the ciphertexts $C_k$ as 
 \begin{equation}
   \begin{split}
     C_k = \left(C_0^k\cdot C_1^k\cdot C_2^k\cdot C_3^k \cdot C_4^k\right)^{b_k}
@@ -327,7 +328,7 @@ Finally $S_1$ sends $\{C_k\}_{k=1}^K$ to $S_0$.
 After receiving $\{C_k\}_{k=1}^K$, $S_0$ first decryptes $C_k$ with its private key and obtains the perturbed weight $\tilde{w}_k$ of worker $k$ as follows,
 \begin{equation}
   \begin{split}
-    \tilde{w}_k = \frac{1}{\mathsf{Dec}_{sk}(C_k)} = \frac{y_k}{b_k\cdot \sum_{m=1}^M \phi_m^k(x_m^k - x_m^*)^2} = \frac{w_k}{b_k}
+    \tilde{w}_k = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} = \frac{y_k}{b_k\cdot \sum_{m=1}^M \phi_m^k\left(x_m^k - x_m^*\right)^2} = \frac{w_k}{b_k}
   \end{split}
 \end{equation}
 
@@ -350,7 +351,8 @@ Finally $S_0$ sends $C_{pack2}$ to $S_1$.
 After receiving the ciphertexts, $S_1$ computes $C_5^m$ and $C_6^m$ as follows,
 \begin{equation}
   \begin{split}
-    C_5^m = \prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}(\tilde{w}_k\cdot x_{m,0}^k)\cdot \left[\mathsf{Enc}_{pk}(\tilde{w}_k)\right]^{x_{m,0}^k}\right]^{b_k} \right]
+    C_5^m = &\prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\cdot x_{m,0}^k\right)\cdot \left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\right)\right]^{x_{m,0}^k}\right]^{b_k} \right] \\
+    % = & \mathsf{Enc}_{pk}\left(\sum_{k=1}^K b_k \tilde{w_k}x_m^k\right) \\
   \end{split}
 \end{equation}
 \begin{equation}
@@ -375,8 +377,14 @@ Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
   \end{split}
 \end{equation}
 
-\section{Performance Evaluation}\label{sec6}
-\section{Conclusion}\label{sec7}
+\section{System Analysis}\label{sec6}
+In this section, we 
+\subsection{Correctness}
+\subsection{Security Analysis}
+
+\section{Performance Evaluation}\label{sec7}
+
+\section{Conclusion}\label{sec8}
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
