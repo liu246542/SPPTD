@@ -294,43 +294,78 @@ Finally, $S_0$ sends $\{C_0^k, C_{pack1}^k\}_{k=1}^K$ to $S_1$.
 Upon receiving the ciphertexts, $S_1$ computes $C_1^k$,$C_2^k$,$C_3^k$,$C_4^k$ as follows.
 \begin{equation}
   \begin{split}
-  C_1^k = &\prod_{m=1}^M\left[ \mathsf{Enc}_{pk}{\left[\left(x_{m,0}^k\right)^2\right]}^{\tilde{\phi}_{m,1}^k} \right] \\
-  = &\mathsf{Enc}_{pk}\left[ \sum_{m=1}^M \tilde{\phi}_{m,1}^k \left(x_{m,0}^k\right)^2\right]
+  C_1^k & = \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}{\left[\left(x_{m,0}^k\right)^2\right]}^{\tilde{\phi}_{m,1}^k} \right] \\
+  & = \mathsf{Enc}_{pk}\left[ \sum_{m=1}^M \tilde{\phi}_{m,1}^k \left(x_{m,0}^k\right)^2\right]
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-  C_2^k = & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)\tilde{\phi}_{m,1}^k}\right] \cdot \\
-          & \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)} \right] \\
+  C_2^k & =  \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)\tilde{\phi}_{m,1}^k}\right] \cdot \\
+          & \qquad \prod_{m=1}^M\left[ \left[\mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k x_{m,0}^k\right)\right]^{2\left(x_{m,1}^k - x_m^*\right)} \right] \\
           % = & \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2(x_{m,1}^k - x_m^*)(\tilde{\phi}_{m,1}^k x_{m,0}^k +   \tilde{\phi}_{m,0}x_{m,0}^k)\right]  \\
-          = & \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2\tilde{\phi}_m^k x_{m,0}^k\left(x_{m,1}^k - x_m^*\right)\right]  \\
+          & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2\tilde{\phi}_m^k x_{m,0}^k\left(x_{m,1}^k - x_m^*\right)\right]  \\
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
     C_3^k & = \prod_{m=1}^M\left[ \mathsf{Enc}_{pk}\left(\tilde{\phi}_{m,0}^k\right)^{\left(x_{m,1}^k - x_m^*\right)^2} \right] \\
-    & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M 2\left(x_{m,1}^k - x_m^*\right)\tilde{\phi}_{m,0}^k\right] \\
+    & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,0}^k\left(x_{m,1}^k - x_m^*\right)^2\right] \\
     % & = \mathsf{Enc}_{pk}(\sum_{m=1}^M \tilde{\phi}_{m,0}^k \cdot (x_{m,1}^k - x_m^*)^2)
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-    C_4^k & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,1}^k \cdot \left(x_{m,1}^k - x_m^*\right)^2\right]
+    C_4^k & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,1}^k \left(x_{m,1}^k - x_m^*\right)^2\right]
   \end{split}
 \end{equation}
 Then $S_1$ chooses a random value $b_k$ and computes the ciphertexts $C_k$ as 
 \begin{equation}
   \begin{split}
-    C_k = \left(C_0^k\cdot C_1^k\cdot C_2^k\cdot C_3^k \cdot C_4^k\right)^{b_k}
+    C_k = & \left(C_0^k\cdot C_1^k\cdot C_2^k\cdot C_3^k \cdot C_4^k\right)^{b_k} \\
+        % = & \mathsf{Enc}_{pk}\left[b_k\cdot \sum_{m=1}^M \tilde{\phi}_m^k\left(\left(x_{m,0}^k\right)^2 + 2x_{m,0}^k\left(x_{m,1}^k-x_m^*\right) + \left(x_{m,1}^k - x_m^*\right)^2\right)\right]
   \end{split}
 \end{equation}
 Finally $S_1$ sends $\{C_k\}_{k=1}^K$ to $S_0$.
 After receiving $\{C_k\}_{k=1}^K$, $S_0$ first decryptes $C_k$ with its private key and obtains the perturbed weight $\tilde{w}_k$ of worker $k$ as follows,
 \begin{equation}
   \begin{split}
-    \tilde{w}_k = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} = \frac{y_k}{b_k\cdot \sum_{m=1}^M \phi_m^k\left(x_m^k - x_m^*\right)^2} = \frac{w_k}{b_k}
+    \tilde{w}_k = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} = \frac{w_k}{b_k}
+    % \tilde{w}_k = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} = \frac{y_k}{b_k \sum_{m=1}^M \phi_m^k\left(x_m^k - x_m^*\right)^2} = \frac{w_k}{b_k}
+  ~\label{eq9}
   \end{split}
 \end{equation}
+Here we give the correctness analysis of Eq.~\ref{eq9}.
+According to the properties of additively homomorphic cryptosystem, we have
+\begin{equation}
+  \begin{split}
+  C_0^k C_1^k & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_{m,0}^k\left(x_{m,0}^k\right)^2 + \tilde{\phi}_{m,1}^k\left(x_{m,0}^k\right)^2  \right] \\
+   & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_m^k\left(x_{m,0}^k\right)^2 \right] \\
+  \end{split}
+\end{equation}
+\begin{equation}
+  \begin{split}
+  C_3^kC_4^k & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \left(\tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k\right) \left(x_{m,1}^k-x_m^*\right)^2 \right] \\
+  & = \mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_m^k\left(x_{m,1}^k - x_m^*\right)^2\right] \\
+  \end{split}
+\end{equation}
+Since $\tilde{\phi}_m^k (x_{m,0}^k)^2 + 2\tilde{\phi}_m^kx_{m,0}^k\left(x_{m,1}^k - x_m^*\right) + \tilde{\phi}_m^k(x_{m,1}^k - x_m^*)^2 = \tilde{\phi}_m^k (x_{m,0}^k + x_{m,1}^k - x_m^*)^2$, then we can further obtain
+\begin{equation}
+  \begin{split}
+  C_k & = \left(C_0^k \cdot C_1^k\cdot C_2^k \cdot C_3^k \cdot C_4^k\right)^{b_k} \\
+   & = \left[\mathsf{Enc}_{pk}\left[\sum_{m=1}^M \tilde{\phi}_m^k (x_{m,0} + x_{m,1} - x_m^*)^2 \right]\right]^{b_k} \\
+  & = \mathsf{Enc}_{pk}\left[b_k \sum_{m=1}^M \tilde{\phi}_m^k (x_m - x_m^*)^2 \right] \\
+  \end{split}
+\end{equation}
+Hence, the perturbed weight $\tilde{w}_k$ can be written as
+\begin{equation}
+  \begin{split}
+  \tilde{w}_k & = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} \\
+  & = \frac{1}{b_k \sum_{m=1}^M \tilde{\phi}_m^k (x_m - x_m^*)^2} \\
+  & = \frac{1}{b_k} \cdot \frac{y_k}{\sum_{m=1}^M \phi_m^k (x_m - x_m^*)^2} \\
+  & = \frac{w_k}{b_k} \\
+  \end{split}
+\end{equation}
+Therefore, the correctness of Eq.~\ref{eq9} holds.
 
 % \begin{equation}
   % \begin{split}
@@ -351,13 +386,17 @@ Finally $S_0$ sends $C_{pack2}$ to $S_1$.
 After receiving the ciphertexts, $S_1$ computes $C_5^m$ and $C_6^m$ as follows,
 \begin{equation}
   \begin{split}
-    C_5^m = &\prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\cdot x_{m,0}^k\right)\cdot \left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\right)\right]^{x_{m,0}^k}\right]^{b_k} \right] \\
-    % = & \mathsf{Enc}_{pk}\left(\sum_{k=1}^K b_k \tilde{w_k}x_m^k\right) \\
+    C_5^m & = \prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\cdot x_{m,0}^k\right)\cdot \left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\right)\right]^{x_{m,0}^k}\right]^{b_k} \right] \\
+     % = & \prod_{k=1}^K\left[ \right] \\
+    & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K b_k \tilde{w_k}x_m^k\right]\\
+    & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K w_kx_m^k\right] \\
   \end{split}
 \end{equation}
 \begin{equation}
   \begin{split}
-    C_6^m = \prod_{k=1}^K \left[ \left[ \mathsf{Enc}_{pk}(\tilde{w}_k\cdot \phi_{m,0}^k) \cdot \left[\mathsf{Enc}_{pk}(\tilde{w}_k)\right]^{\phi_{m,1}^k}\right]^{b_k} \right]
+    C_6^m & = \prod_{k=1}^K \left[ \left[ \mathsf{Enc}_{pk}(\tilde{w}_k\cdot \phi_{m,0}^k) \cdot \left[\mathsf{Enc}_{pk}(\tilde{w}_k)\right]^{\phi_{m,1}^k}\right]^{b_k} \right] \\
+     & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K b_k \tilde{w}_k\phi_m^k \right] \\
+     & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K w_k\phi_m^k \right] \\
     % C_6^m = \prod_{k=1}^K \left[ \letf[\mathsf{Enc}_{pk}(\tilde{w}_k\cdot \phi_{m,0}^k)\right]^{b_k} \cdot \mathsf{Enc}_{pk}()\right]
   \end{split}
 \end{equation}
@@ -373,14 +412,18 @@ Finally $S_1$ sends $\{C_5^m\}_{m=1}^M$ and $\{C_6^m\}_{m=1}^M$ to $S_0$.
 Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
 \begin{equation}
   \begin{split}
-    x_m^* = \frac{\mathsf{Dec}_{sk}(C_5^m)}{\mathsf{Dec}_{sk}(C_6^m)}
+    x_m^* = \frac{\mathsf{Dec}_{sk}(C_5^m)}{\mathsf{Dec}_{sk}(C_6^m)} = \frac{\sum_{k=1}^K w_kx_m^k}{\sum_{k=1}^K w_k\phi_m^k}
   \end{split}
 \end{equation}
 
-\section{System Analysis}\label{sec6}
-In this section, we 
-\subsection{Correctness}
-\subsection{Security Analysis}
+{\em (conclude this section)}
+
+\section{Security Analysis}\label{sec6}
+Recall the design goal is to preserve the privacy of sensory data, indication vectors and weights for each worker.
+That is to say, the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ for each worker $k$ will not be disclosed to $S_0$ and $S_1$.
+
+
+
 
 \section{Performance Evaluation}\label{sec7}
 
