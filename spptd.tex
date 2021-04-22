@@ -153,32 +153,9 @@ Note that the lazy workers are not considered, since this issue can be solved by
 The main purpose of our shceme is to protect workers' privacy.
 Since the sensory data providered by workers are sparse, we should not only consider the privacy of sensory data, but also consider the privacy of indication vectors.
 
-% there are two kind of privacy need to be considered.
-% The first one is the 
-% of workers while the 
-% workers' privacy while they 
-% protecting workers' privacy 
-% The design goals of our proposed scheme can be 
-
-% \subsection{Background on Truth Discovery}
-
-% In real-world crowdsensing applications, truth discovery is 
-% Weight Update:
-
-% $$w_k = \frac{\chi_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}^2}{\sum_M (x_m^k - x_m^*)^2}$$
-
-% Truth Update:
-
-% $$x_m^* = \frac{\sum_K w_k \phi_m^k x_m^k }{\sum_K \phi_m^k x_m^k}$$
-
-% \subsection{System Model}
-
-
 \section{Preliminaries}\label{sec4}
 In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and additively homomorphic cryptosystem.
 % ABY2.0~\cite{patra_aby20_2020}.
-
-% \subsection{Homomorphic Encryption}
 
 \subsection{CATD}
 % CATD 强调与 worker 提交的数量，。。。
@@ -286,7 +263,7 @@ For worker $k$, $S_0$ first computes $C_0^k$ as:
 \end{equation}
 Then $S_0$ encrypts $\{x_{m,0}^k, (x_{m,0}^k)^2, \tilde{\phi}_{m,0}^k,\tilde{\phi}_{m,0}^k\cdot x_{m,0}^k\}_{m,k=1}^{M,K}$ respectively.
 These ciphertexts are typically denoted by $C_{pack1}$.
-Finally, $S_0$ sends $\{C_0^k, C_{pack1}^k\}_{k=1}^K$ to $S_1$.
+Finally, $S_0$ sends $\{C_0^k\}_{k=1}^K$ and $C_{pack1}$ to $S_1$.
 % We denote $C_{pack}$ as the set of ciphertexts.
 % To give a clear illustration, we denote $C_{pack} = \{\mathsf{E}_{pk}(x_{m,0}^k), \mathsf{E}_{pk}((x_{m,0}^k)^2), \mathsf{E}_{pk}(\tilde{\phi}_{m,0}^k), \mathsf{E}_{pk}(\tilde{\phi}_{m,0}^k x_{m,0}^k)\}_{m=1}^M$.
  % $$\{\mathsf{E}_{pk}(x_{m,0}^k), \mathsf{E}_{pk}((x_{m,0}^k)^2), \mathsf{E}_{pk}(\tilde{\phi}_{m,0}^k), \mathsf{E}_{pk}(\tilde{\phi}_{m,0}^k x_{m,0}^k)\}_{m=1}^M$$ to $S_1$.
@@ -386,7 +363,7 @@ Finally $S_0$ sends $C_{pack2}$ to $S_1$.
 After receiving the ciphertexts, $S_1$ computes $C_5^m$ and $C_6^m$ as follows,
 \begin{equation}
   \begin{split}
-    C_5^m & = \prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\cdot x_{m,0}^k\right)\cdot \left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\right)\right]^{x_{m,0}^k}\right]^{b_k} \right] \\
+    C_5^m & = \prod_{k=1}^K\left[\left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\cdot x_{m,0}^k\right)\cdot \left[\mathsf{Enc}_{pk}\left(\tilde{w}_k\right)\right]^{x_{m,1}^k}\right]^{b_k} \right] \\
      % = & \prod_{k=1}^K\left[ \right] \\
     & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K b_k \tilde{w_k}x_m^k\right]\\
     & = \mathsf{Enc}_{pk}\left[\sum_{k=1}^K w_kx_m^k\right] \\
@@ -418,14 +395,42 @@ Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
 
 {\em (conclude this section)}
 
-\section{Security Analysis}\label{sec6}
-Recall the design goal is to preserve the privacy of sensory data, indication vectors and weights for each worker.
-That is to say, the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ for each worker $k$ will not be disclosed to $S_0$ and $S_1$.
+\section{System Analysis}\label{sec6}
 
+\subsection{Security Analysis}
+Note that our design goal is to protect the privacy of sensory data, indication vectors and weights for each worker.
+In this regard, we present the following theorem.
+% That is to say, the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ for each worker $k$ will not be disclosed to $S_0$ and $S_1$.
 
+\begin{theorem}
+  Suppose that workers, $S_0$ and $S_1$ satisfy the threat model in this paper, the additively homomorphic cryptosystem and arithmetic sharing are secure, then the privacy of workers' sensory data, indication vectors and weights can be protected under the proposed scheme.
+\end{theorem}
 
+{\noindent\em Proof.} In our threat model, each entity is assumed to be semi-honest, and two servers are non-colluding.
+% Namely, they will honestly follow 
+Since workers do not take part in the iteration phase, we only need to consider the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ are not disclosed to $S_0$ and $S_1$ for each worker $k$.
+
+For $S_0$, it only knows $\{x_{m,0}^k, \phi_{m,0}^k, \tilde{\phi}_{m,0}^k\}_{m=1}^M$, $C_k$, $C_5^m$ and $C_6^m$.
+Although $S_0$ can decrypt $C_k$, $C_5^m$ and $C_6^m$ and further obtain the perturb weight $\tilde{w}_k$ and the aggregation information such as $\sum_{k=1}^K w_k x_m^k$ and $\sum_{k=1}^K w_k \phi_m^k$.
+Since $x_{m,1}^k$ and $\phi_{m,1}^k$ are generated randomly by worker $k$, $b_k$ is chosen randomly by $S_1$.
+Without knowing $x_{m,1}^k$, $\phi_{m,1}^k$ and $b_k$, $S_0$ cannot infer $x_m^k$, $\phi_m^k$ and $w_k$ for worker $k$.
+
+For $S_1$, it only knows $\{x_{m,1}^k, \phi_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$, $C_0^k$, $C_{pack1}$ and $C_{pack2}$.
+Similarly, since $x_{m,0}^k$ and $\phi_{m,0}^k$ are generated randomly by worker $k$, $S_1$ cannot infer $x_m^k$ and $\phi_m^k$ for worker $k$.
+Note that $C_0^k$, $C_{pack1}$ and $C_{pack2}$ are ciphertexts under additively homomorphic cryptosystem, $S_1$ has no mechanism to decrypt them without the private key $sk$, and hence cannot learn worker's weight $w_k$ even it knows the ciphertext $C_k$.
+\subsection{Efficiency Analysis}
+{\em 1) Computation Overheads:} Since each worker $k$ only need to calculate $y_k$ and $\{\tilde{\phi}_m^k\}_{m=1}^M$, and then split $\{x_m^k, \phi_m^k, \tilde{\phi}_m^k\}_{m=1}^M$ into two parts, there are no complicated calculations for workers.
+% The computation overheads of workers are low, 
+The computation overhead for each worker is $O(M)$.
+For $S_0$, it has to take $O(KM+K)$ encryptions and $O(K)$ decryptions in secure weight update phase, and take $O(KM)$ encryptions and $O(M)$ decryptions in secure truth update phase.
+For $S_1$, it has to take $O(KM)$ ciphertext multiplications and $O(KM)$ ciphertext exponentiations in secure weight update phase.
+% first need to calculate the ciphertext $C_0^k$ for each worker $k$, then it has to encrypts $\{x_{m,0}^k, (x_{m,0}^k)^2, \tilde{\phi}_{m,0}^k,\tilde{\phi}_{m,0}^k\cdot x_{m,0}^k\}_{m,k=1}^{M,K}$ repectively.
+
+{\em 2) Communication Overheads:}
 
 \section{Performance Evaluation}\label{sec7}
+\subsection{Accurancy}
+\subsection{Efficiency Evaluation}
 
 \section{Conclusion}\label{sec8}
 
