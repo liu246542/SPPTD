@@ -8,6 +8,7 @@
 \usepackage{textcomp}
 \usepackage[OT1]{fontenc}
 \usepackage{xcolor}
+\usepackage{multirow,makecell,booktabs}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 % \usepackage[colorlinks]{hyperref}
@@ -396,8 +397,28 @@ Then $S_0$ decrypts these ciphertexts and obtains the groud truth as follows,
 {\em (conclude this section)}
 
 \section{System Analysis}\label{sec6}
-
 \subsection{Security Analysis}
+
+\iffalse
+\begin{table*}[t]
+    \centering
+    \caption{Communication Overhead}
+    \linespread{1.3}\selectfont
+    \begin{tabular}{l c c c c c c}
+        \hline
+        \hline
+        \multirow{2}*{Scheme} &  \multicolumn{2}{c}{System Initialization} & \multicolumn{3}{c}{Key Generation and Distribution}& Encryption/Decryption\\
+        \cmidrule(lr){2-3}\cmidrule(lr){4-6} \cmidrule{7-7} & CA & AA & CA &AA &User & Owner\\
+        \hline
+        Li & Not exist & N/A  & Not exist & $3N_{i,j}\|p\|$ & $3N_{i,j}\|p\|$ & $(3+2N_{a,2})\|p\|$ \\
+        Chase & $N_A\|p\|+N_{a,1}\|p\|$ & $(N_i+1)\|p\|$ & $\|p\|$ & $N_{i,j}\|p\|$ & $(N_{i,j}+1)\|p\|$ & $(2+N_{a,2})\|p\|$ \\
+        Chase & Not exist & $(N_A-1)\|p\|$ & Not exist & $(N_{i,j}+5)\|p\|$ & $5(N_A-1)\|p\|+N_{i,j}\|p\|$ & $(2+N_{a,2})\|p\|$ \\     
+        \hline
+        \hline
+    \end{tabular}
+\end{table*}
+\fi
+
 Note that our design goal is to protect the privacy of sensory data, indication vectors and weights for each worker.
 In this regard, we present the following theorem.
 % That is to say, the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ for each worker $k$ will not be disclosed to $S_0$ and $S_1$.
@@ -406,18 +427,47 @@ In this regard, we present the following theorem.
   Suppose that workers, $S_0$ and $S_1$ satisfy the threat model in this paper, the additively homomorphic cryptosystem and arithmetic sharing are secure, then the privacy of workers' sensory data, indication vectors and weights can be protected under the proposed scheme.
 \end{theorem}
 
-{\noindent\em Proof.} In our threat model, each entity is assumed to be semi-honest, and two servers are non-colluding.
+{\em Proof.} In our threat model, each entity is assumed to be semi-honest, and two servers are non-colluding.
 % Namely, they will honestly follow 
 Since workers do not take part in the iteration phase, we only need to consider the privacy of $x_m^k$, $\phi_m^k$ and $w_k$ are not disclosed to $S_0$ and $S_1$ for each worker $k$.
 
 For $S_0$, it only knows $\{x_{m,0}^k, \phi_{m,0}^k, \tilde{\phi}_{m,0}^k\}_{m=1}^M$, $C_k$, $C_5^m$ and $C_6^m$.
 Although $S_0$ can decrypt $C_k$, $C_5^m$ and $C_6^m$ and further obtain the perturb weight $\tilde{w}_k$ and the aggregation information such as $\sum_{k=1}^K w_k x_m^k$ and $\sum_{k=1}^K w_k \phi_m^k$.
-Since $x_{m,1}^k$ and $\phi_{m,1}^k$ are generated randomly by worker $k$, $b_k$ is chosen randomly by $S_1$.
+Since $x_{m,1}^k$ and $\phi_{m,1}^k$ are obtained randomly by worker $k$, $b_k$ is chosen randomly by $S_1$.
 Without knowing $x_{m,1}^k$, $\phi_{m,1}^k$ and $b_k$, $S_0$ cannot infer $x_m^k$, $\phi_m^k$ and $w_k$ for worker $k$.
 
 For $S_1$, it only knows $\{x_{m,1}^k, \phi_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$, $C_0^k$, $C_{pack1}$ and $C_{pack2}$.
 Similarly, since $x_{m,0}^k$ and $\phi_{m,0}^k$ are generated randomly by worker $k$, $S_1$ cannot infer $x_m^k$ and $\phi_m^k$ for worker $k$.
 Note that $C_0^k$, $C_{pack1}$ and $C_{pack2}$ are ciphertexts under additively homomorphic cryptosystem, $S_1$ has no mechanism to decrypt them without the private key $sk$, and hence cannot learn worker's weight $w_k$ even it knows the ciphertext $C_k$.
+
+Furthermore, we present the security comparisons between the proposed scheme with state-of-the-art schemes.
+As shown in Table~\ref{tab1}, only the encrypted CATD and our proposed scheme can deal with the sparse data scenarios.
+But the encrypted CATD cannot guarantee the privacy of indicator privacy, which means server can learn the information which objects are observed by a worker. 
+
+\begin{table}[htb]
+  \centering
+  \caption{Secure Comparison with Various Schemes}~\label{tab1}
+  \linespread{1.3}\selectfont
+  \begin{tabular}{c c c c c}
+    \hline
+    \hline
+    % \multirow{2}*{Schemes} & \multirow{2}*{Sensory data privacy} & Weight privacy & Indicator privacy & User non-interactive \\
+    Schemes & \makecell[c]{Sensory \\ Data Privacy} & \makecell[c]{Weight \\ Privacy} & \makecell[c]{Sparse Data \\ Support} & \makecell[c]{Indicator \\ Privacy} \\
+    % Schemes & Sensory data privacy & Weight privacy & Indicator privacy & User non-interactive \\
+    \hline
+    $L$-PPTD~\cite{miao_lightweight_2017} & $\surd$ & $\surd$ & $\times$ & - \\
+    $L^2$-PPTD~\cite{miao_lightweight_2017} & $\surd$ & $\times$ & $\times$ & - \\
+    EPTD~\cite{xu_efficient_2019} & $\surd$ & $\surd$ & $\times$ & - \\
+    RPTD-I~\cite{zhang_reliable_2019} & $\surd$ & $\surd$ & $\times$ & - \\
+    RPTD-II~\cite{zhang_reliable_2019} & $\surd$ & $\surd$ & $\times$ & - \\
+    InPPTD~\cite{xue_inpptd_2020} & $\surd$ & $\surd$ & $\times$ & - \\
+    Encrypted CATD~\cite{zheng_learning_2018} & $\surd$ & $\surd$ & $\surd$ & $\times$ \\
+    Our Propsed Scheme & $\surd$ & $\surd$ & $\surd$ & $\surd$ \\
+    \hline
+    \hline
+  \end{tabular}
+\end{table}
+
 \subsection{Efficiency Analysis}
 {\em 1) Computation Overheads:} Since each worker $k$ only need to calculate $y_k$ and $\{\tilde{\phi}_m^k\}_{m=1}^M$, and then split $\{x_m^k, \phi_m^k, \tilde{\phi}_m^k\}_{m=1}^M$ into two parts, there are no complicated calculations for workers.
 % The computation overheads of workers are low, 
@@ -429,6 +479,9 @@ For $S_1$, it has to take $O(KM)$ ciphertext multiplications and $O(KM)$ ciphert
 {\em 2) Communication Overheads:}
 
 \section{Performance Evaluation}\label{sec7}
+In this section, we evaluate the performance of the propose scheme in terms of accurancy, computation cost and communication cost.
+Specifically, we choose Paillier homomorphic cryptosystem~\cite{paillier_public-key_1999} as the additively homomorphic cryptosystem in our scheme.
+The experiments are performed on a server with a 1.5 GHZ ARM Cortex-A71 CPU and 4GB RAM running Debian Linux operation system.
 \subsection{Accurancy}
 \subsection{Efficiency Evaluation}
 
