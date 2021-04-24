@@ -9,6 +9,7 @@
 \usepackage[OT1]{fontenc}
 \usepackage{xcolor}
 \usepackage{multirow,makecell,booktabs}
+\usepackage{adjustbox,threeparttable}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 % \usepackage[colorlinks]{hyperref}
@@ -448,7 +449,7 @@ But the encrypted CATD cannot guarantee the privacy of indicator privacy, which 
   \centering
   \caption{Secure Comparison with Various Schemes}~\label{tab1}
   \linespread{1.3}\selectfont
-  \begin{tabular}{c c c c c}
+  \begin{tabular}{ccccc}
     \hline
     \hline
     % \multirow{2}*{Schemes} & \multirow{2}*{Sensory data privacy} & Weight privacy & Indicator privacy & User non-interactive \\
@@ -465,7 +466,8 @@ But the encrypted CATD cannot guarantee the privacy of indicator privacy, which 
     Our Propsed Scheme & $\surd$ & $\surd$ & $\surd$ & $\surd$ \\
     \hline
     \hline
-  \end{tabular}
+  \end{tabular}  
+
 \end{table}
 
 \subsection{Efficiency Analysis}
@@ -479,14 +481,91 @@ For $S_1$, it has to take $O(KM)$ ciphertext multiplications and $O(KM)$ ciphert
 {\em 2) Communication Overheads:}
 
 \section{Performance Evaluation}\label{sec7}
-In this section, we evaluate the performance of the propose scheme in terms of accurancy, computation cost and communication cost.
+In this section, we evaluate the performance of the propose scheme in terms of accurancy, convergence, computation cost and communication cost.
 Specifically, we choose Paillier homomorphic cryptosystem~\cite{paillier_public-key_1999} as the additively homomorphic cryptosystem in our scheme.
-The experiments are performed on a server with a 1.5 GHZ ARM Cortex-A71 CPU and 4GB RAM running Debian Linux operation system.
+All procedures are conducted on a computer with an Intel Core i5-10400 CPU (4.30 GHZ) and 16GB RAM running Linux operation system.
+All experiments are executed 10 times and the finally results are given in average.
+% The experiments are performed on a server with a 1.5 GHZ ARM Cortex-A71 CPU and 4GB RAM running Debian Linux operation system.
+For the sake of illustration, we denote $\gamma$ as the sparsity of sensory data, and $\gamma$ is defined as $\gamma = (1 - \sum_{m=1}^M\sum_{k=1}^K\phi_m^k) / (M\cdot K)$.
+Intuitively, as $\gamma=0.6$, the average amount of sensory data uploaded by a worker is less than a half of $M$.
+
+\subsection{Accuracy}
+Since the CATD framework is adopted as the fundamental truth discovery algorithm in our proposed scheme, we first measure the accuracy of estimated ground truth between our proposed scheme and CATD.
+Similar to~\cite{zhang_reliable_2019,xue_inpptd_2020}, we use the Root of Mean Squared Error (RMSE) defined as $(\sum_{m=1}^M (x_m^* - \hat{x}_m)/M)^{\frac{1}{2}}$ to evaluate the deviation between the estimated truths $\{x_m^*\}_{m=1}^M$ and the real ground truths $\{\hat{x}_m\}_{m=1}^M$.
+In this experiment, the number of objects and sparsity of sensory data are fixed as 20 and 0.2 respectively, the number of workers is varied from 10 to 30.
+As shown in Figure, we can observe that the proposed scheme achieves the similar accuracy to the baseline algorithm CATD.
+Moreover, the estimate truths is closer to the real ground truths with the increase of number of workers.
+
+To further analyze the impact of sparsity $\gamma$ for accuracy, we conduct the experiment under different sparsity settings from 0.2 to 0.6.
+The results in Figure show that even the sparisity as high as 0.6, the accuracy is still acceptable.
+
+% with the increase of 
+% our proposed scheme 
+% To analyze the impact of sparsity $\gamma$, we conduct the experiment with different sparsity setting.
+% As shown is Figure, 
+
 \subsection{Convergence}
-\subsection{Accurancy}
+As for convergence, we use $\sum_{m=1}^M (x_m^t - x_m^{t-1})^2$ as the convergence value in the $t$-th iteration, where $x_m^t$ is the estimated truth in $t$-th iteration and $x_m^0$ is randomly initialized.
+In this experiment, the number of workers and objects are fixed as 10 and 20 respectively.
+As illustrated in Figure , the convergence speed is very fast at the first few iterations.
+Meanwhile, in the same conditions, sensory data with higher sparsity need more rounds of iteration to meet a small convergence value.
+% the convergence value is larger 
+% The results are presented in Figure .
+
 \subsection{Efficiency Evaluation}
+In this part, we measure the performance of computation overheads and communication overheads respectively.
+First we set the sparsity as 0.2.
+Table lists the computation overheads of workers and two servers in non-iteration phase.
+
+
+\begin{table}[htbp]
+  \centering
+  \caption{Computation Overhead in Non-Iteration Phase}
+  \linespread{1.3}\selectfont
+  \begin{tabular}{c c c c}
+    \hline
+    \hline
+    \multirow{2}*{Running Time (ms)} &  \multicolumn{1}{c}{Upload Phase} & \multicolumn{1}{c}{Pre-Processing Phase} \\
+    \cmidrule(lr){2-2}\cmidrule(lr){3-3} & Workers & $S_0$ \\
+    \hline
+    $M=20$ & & &\\
+    $M=40$ & & &\\
+    $M=60$ & & &\\
+    \hline
+    \hline
+  \end{tabular}
+\end{table}
+
+\iffalse
+\begin{table*}[htbp]
+  \centering
+  \caption{Computation Overhead}
+  \linespread{1.3}\selectfont
+  \begin{tabular}{c c c c c c c}
+    \hline
+    \hline
+    \multirow{2}*{Number of Objects} &  \multicolumn{1}{c}{Upload Phase} & \multicolumn{1}{c}{Pre-Processing Phase}& \multicolumn{2}{c}{Secure Weight Update Phase} & \multicolumn{2}{c}{Secure Truth Update Phase} \\
+    \cmidrule(lr){2-2}\cmidrule(lr){3-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} & Each Worker & $S_0$ & $S_0$ & $S_1$ & $S_0$ & $S_1$\\
+    \hline
+    $M=20$ & & & & & & \\
+    $M=40$ & & & & & & \\
+    $M=60$ & & & & & & \\
+    \hline
+    \hline
+  \end{tabular}
+\end{table*}
+\fi
+
+
 
 \section{Conclusion}\label{sec8}
+In this paper, we propose a privacy-preserving truth discovery scheme targeted for sparse data scenarios.
+Unlike other related researches, we carefully discuss the privacy-preserving issues for truth discovery when sensory data provided by workers are sparse.
+We further present a scheme to guarantee these requirements by utilizing additively homomorphic cryptosystem based on CATD framework.
+Through the analysis of security and efficiency, our proposed scheme can provide the privacy protection of workers' sensory data, weights and indication vectors with a low computation and communication overhead on the workers' side.
+% protect the privacy of workers' sensory data, weights and indication vectors with a low computation and communication overhead on the workers' side.
+Finally, extensive experiments also indicate that the proposed scheme is practical in the real mobile crowdsensing systems.
+
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
