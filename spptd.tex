@@ -90,14 +90,14 @@ Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
 Recently, several studies have attempted to employ various methods such as cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery.
-Generally, these schemes can be categorized into the single-server setting and two-server setting.
+In general, these schemes can be categorized into the single-server setting and two-server setting.
 
 The first privacy-preserving truth discovery was presented by Miao et al.~\cite{miao_cloud-enabled_2015} based on the single-server setting.
 They utilized a threshold paillier cryptosystem to encrypt the sensory data so that the workers' privacy can be preserved.
 But the computation overhead of threshold homomorphic cryptography is huge.
 To reduce the computation overhead, Xu et al.~\cite{xu_efficient_2019} proposed an efficient scheme based on a fault-tolerance perturbation-based protocol called double-masking.
 Benefit from the properties of double-masking, workers can drop out at any time point.
-However, while under the single server setting, workers have to participate in the iterative processes which means that workers need to suffer additional computing and communication overhead.
+However, in the single server setting, workers have to participate in the iterative processes which means that workers need to suffer additional computing and communication overhead.
 
 To reduce the interactions of workers, Miao et al.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding servers.
 After that, more and more schemes are designed under two-server setting (such as~\cite{zhang_lptd_2019,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}).
@@ -107,7 +107,7 @@ But in the real-world mobile crowdsensing systems (like sparse mobile crowd sens
 
 Fortunately, there is another truth discovery algorithm called CATD~\cite{li_confidence-aware_2014} for handling long-tail data, which is also feasible for the sparse data situation.
 Zheng et al.~\cite{zheng_learning_2018} designed an encrypted truth discovery based on CATD under two non-colluding servers where all procedures are conducted in the encrypted domain.
-Their proposed scheme can realize strong privacy protection for workers' sensory data by adopting Garbled Circuit but it fails to take the privacy issues that appeared in sparse data scenarios into account.
+Their proposed scheme can realize strong privacy protection for workers' sensory data by adopting Garbled Circuit but it fails to consider the privacy issues that appeared in sparse data scenarios.
 To the best of our knowledge, there still lacks discussions about the privacy issues for truth discovery in sparse data scenarios.
 
 \section{System Model and Design Goals}\label{sec3}
@@ -116,26 +116,27 @@ In this section, we present the system model and describe the problem we target 
 The specific explanations of these entities are listed as follows.
 
 \begin{itemize}
-  \item \textbf{Workers:} Workers refers to the mobile devices in a mobile crowdsensing system. They are responsible for collecting sensory data of different objects and upload these sensory data to servers. Since most mobile devices are resource-limited, it is not necessary for each worker to collect sensory data of all objects.
-  \item \textbf{Servers:} Servers are responsible for analyzing the sensory data of different objects. More specifically, after receiving the uploaded sensory data, these two servers start to estimate the ground truth for each sensory object. In general, we assume that the two servers have sufficient computation and storage capabilities.
+  \item \textbf{Workers:} Workers refers to the mobile devices in a mobile crowdsensing system. They are responsible for collecting sensory data of different sensed objects and upload these sensory data to servers. Since most mobile devices are resource-limited, it is not necessary for each worker to collect sensory data of all sensed objects.
+  \item \textbf{Servers:} Servers are responsible for analyzing the sensory data for sensed objects. More specifically, after receiving the sensory data uploaded by workers, servers start to estimate the ground truth for each sensed object. In general, we assume that the servers have sufficient computation and storage capabilities. Since our proposed scheme is under two-server setting, we use $S_0$ and $S_1$ to denote these two servers respectively.
 \end{itemize}
 
 In this paper, suppose that there are $M$ objects to be sensed, and the number of workers is $K$.
 We denote $x_m^k$ as the sensory data of object $m$ provided by worker $k$.
-Moreover, worker $k$ also maintains an indicator vector $[\phi_1^k, \ldots, \phi_M^k]$ to mark the missing sensory objects in which $\phi_m^k = 1$ means worker $k$ has collected the sensory data of object $m$, and $\phi_m^k = 0$ otherwise.
-We note that if $\phi_m^k = 0$, then the corresponding $x_m^k = 0$.
+Since the sensory data $\{x_m^k\}_{m=1}^M$ provided by worker $k$ may be sparse, we use an indicator vector $[\phi_1^k, \ldots, \phi_M^k]$ to mark the missing sensory objects in which $\phi_m^k = 1$ means worker $k$ has collected the sensory data of object $m$, and $\phi_m^k = 0$ otherwise.
+% Moreover, worker $k$ also maintains an indicator vector $[\phi_1^k, \ldots, \phi_M^k]$ to mark the missing sensory objects in which $\phi_m^k = 1$ means worker $k$ has collected the sensory data of object $m$, and $\phi_m^k = 0$ otherwise.
+Note that if $\phi_m^k = 0$, then the corresponding $x_m^k = 0$.
 Each worker uploads the sensory data and indicator vector to servers.
-After that, two cloud servers calculate each worker's weight (denoted by $w_k$ for worker $k$) and finally estimate the ground truth for each object (denoted by $x_m^*$ for object $m$). 
+After that, two cloud servers $S_0$ and $S_1$ calculate each worker's weight (denoted by $w_k$ for worker $k$) and then estimate the ground truth for each object (denoted by $x_m^*$ for object $m$). 
 \subsection{Design Goals}
 
-The main goal of our proposed scheme is to achieve privacy-preserving truth discovery when sensory data are sparse.
+The main goal of our proposed scheme is to design a privacy-preserving truth discovery scheme in the situation where sensory data are sparse.
 First, we need to identify the privacy requirements in the sparse data situation.
 According to research~\cite{wang_sparse_2020}, the information of which objects are uploaded by a worker may disclose this worker's location trajectory in sparse mobile crowdsensing.
-In other words, the indicator vector for each worker also needs to be preserved.
-Therefore, the main goal is to protect workers' privacy including sensory data, indicator vector, and weight for each worker.
-Besides, considering that most workers are resource-limited, it is necessary to reduce the computation and communication overheads on the workers' side.
+In other words, the indicator vector of each worker also needs to be preserved.
+Therefore, the main goal is to protect workers' privacy including sensory data, indicator vector, and weights.
+Besides, considering that most workers are resource-limited, it is necessary to reduce the computation overhead and communication overhead on the workers' side.
 
-In our proposed scheme, we assume that all entities are semi-honest, which means that both workers and servers will honestly execute the protocols, but they are also curious about participants' privacy, such as workers' sensory data, workers' weights, and so on.
+In the proposed scheme, we assume that all entities are semi-honest, which means that both workers and servers will honestly execute the protocols, but they are also curious about participants' privacy.
 Besides, the two servers in our scheme are non-colluding, which is a common assumption in most two-server models~\cite{zhang_lptd_2019,zhang_reliable_2019}.
 Note that the lazy workers are not considered, since this issue can be solved by integrating incentive mechanism~\cite{xue_inpptd_2020}.
 Since the truth discovery algorithm only considers estimating ground truth from existing sensory data, the issues of inferring missing data are out of the scope of this paper and we do not consider them in this work.
@@ -203,7 +204,7 @@ Therefore, it is a challenge to protect the privacy of indicator vectors, sensor
 Although applying GC is a straightforward method to achieve strong privacy preservation, the generation of GC is still a cumbersome task.
 
 To reduce the complicated operations on the workers' side, we shift all heavy cryptographic operations to the servers' side.
-Overall, workers only need to split different data into two parts and then upload it to two servers respectively.
+Generally speaking, workers only need to split data into two parts randomly and then upload them to two servers respectively.
 After that, the ground truth can be estimated by two servers.
 The whole procedure can be divided into  phases: {\em Initialization Phase}, {\em Report Phase}, {\em Pre-Processing Phase} and {\em Iteration Phase}.
 
@@ -217,7 +218,7 @@ Finally, $S_0$ publishes the public key $pk$ and significant level $\alpha$.
 In this phase, each worker collects sensory data for distinct objects.
 Taking worker $k$ as an example, after obtaining a set of sensory data $\{x_m^k\}_{m=1}^M$ and generating an indicator vector $\{\phi_m^k\}_{m=1}^M$, worker $k$ computes $y_k = \chi^2_{(1-\alpha/2, \sum_{m=1}^M \phi_m^k)}$.
 Then for each object $m$, worker $k$ computes $\tilde{\phi}_m^k = \phi_m^k / y_k$.
-Finally, worker $k$ computes additive shares of $x_m^k$, $\phi_m^k$ and $\tilde{\phi}_m^k$ respectively, i.e., $x_m^k = x_{m,0}^k + x_{m,1}^k$, $\phi_m^k = \phi_{m,0}^k + \phi_{m,1}^k$, $\tilde{\phi}_m^k = \tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k$ (where $\{x_{m,0}^k, \phi_{m,0}^k, \tilde{\phi}_m^k\}_{m=1}^M$ are chosen randomly), and uploads $\{x_{m,0}^k, \phi_{m,0}^k ,\tilde{\phi}_{m,0}^k\}_{m=1}^M$ to $S_0$, uploads $\{x_{m,1}^k, \phi_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$ to $S_1$.
+Finally, worker $k$ splits $x_m^k$, $\phi_m^k$ and $\tilde{\phi}_m^k$ into two parts randomly (i.e., $x_m^k = x_{m,0}^k + x_{m,1}^k$, $\phi_m^k = \phi_{m,0}^k + \phi_{m,1}^k$, $\tilde{\phi}_m^k = \tilde{\phi}_{m,0}^k + \tilde{\phi}_{m,1}^k$, where $\{x_{m,0}^k, \phi_{m,0}^k, \tilde{\phi}_m^k\}_{m=1}^M$ are chosen randomly), and uploads $\{x_{m,0}^k, \phi_{m,0}^k ,\tilde{\phi}_{m,0}^k\}_{m=1}^M$ to $S_0$, uploads $\{x_{m,1}^k, \phi_{m,1}^k, \tilde{\phi}_{m,1}^k\}_{m=1}^M$ to $S_1$.
 When the upload process is complete, worker $k$ can go offline.
 
 \subsection{Pre-Processing Phase}
@@ -308,8 +309,8 @@ Hence, the perturbed weight $\tilde{w}_k$ can be written as
 \end{equation}
 Therefore, the correctness of Eq.~\ref{eq9} holds.
 
-In the truth update phase, $S_0$ first encrypts $\{\tilde{w}_k\}_{m=1}^K$ and $\{\tilde{w}_k\cdot x_{m,0}^k, \tilde{w}_k\cdot \phi_{m,0}^k\}_{m,k=1}^{M,K}$ respectively.
-We denote the sets of ciphertexts as $C_{pack2}$.
+In the truth update phase, $S_0$ first encrypts $\{\tilde{w}_k\}_{k=1}^K$ and $\{\tilde{w}_k\cdot x_{m,0}^k, \tilde{w}_k\cdot \phi_{m,0}^k\}_{m,k=1}^{M,K}$ respectively.
+The sets of ciphertexts are denoted by $C_{pack2}$.
 Finally $S_0$ sends $C_{pack2}$ to $S_1$.
 
 After receiving the ciphertexts, $S_1$ computes $C_5^m$ and $C_6^m$ as follows,
@@ -379,7 +380,8 @@ Note that $C_0^k$, $C_{pack1}$ and $C_{pack2}$ are ciphertexts under additively 
 
 Furthermore, we present the security comparison between the proposed scheme with state-of-the-art schemes.
 As shown in TABLE~\ref{tab:security}, only the encrypted CATD and our proposed scheme can deal with the sparse data scenarios.
-But the encrypted CATD cannot guarantee the privacy of indicator privacy, which means the server can learn the information of which objects are observed by a worker. 
+But the encrypted CATD cannot guarantee the privacy of indicator privacy.
+% which means the server can learn the information of which objects are observed by a worker. 
 
 \begin{table}[htb]
   \centering
@@ -409,6 +411,7 @@ But the encrypted CATD cannot guarantee the privacy of indicator privacy, which 
 In this section, we evaluate the performance of the proposed scheme in terms of accuracy, convergence, computation overhead, and communication overhead.
 Specifically, we choose Paillier homomorphic cryptosystem~\cite{paillier_public-key_1999} as the additively homomorphic cryptosystem in our scheme.
 All procedures are conducted on a computer with an Intel Core i5-10400 CPU (4.30 GHz) and 16GB RAM running Linux operation system.
+We invoke the python-paillier library~\cite{PythonPaillier} for rapidly building advance cryptosystems.
 All experiments are executed 10 times and take the average results.
 For the sake of illustration, we use $\gamma$ to denote the sparsity of sensory data, and $\gamma$ is defined as $\gamma = 1 - (\sum_{m=1}^M\sum_{k=1}^K\phi_m^k) / (M\cdot K)$.
 
@@ -416,7 +419,7 @@ For the sake of illustration, we use $\gamma$ to denote the sparsity of sensory 
 Since the CATD framework is adopted as the fundamental truth discovery algorithm in our proposed scheme, we first measure the accuracy of estimated ground truth between our proposed scheme and CATD.
 Similar to~\cite{zhang_reliable_2019,xue_inpptd_2020}, we use the Root of Mean Squared Error (RMSE) defined as $(\sum_{m=1}^M (x_m^* - \hat{x}_m)/M)^{\frac{1}{2}}$ to evaluate the deviation between the estimated truths $\{x_m^*\}_{m=1}^M$ and the real ground truths $\{\hat{x}_m\}_{m=1}^M$.
 In this experiment, the number of objects and sparsity of sensory data are fixed as 20 and 0.2 respectively, the number of workers is varied from 5 to 25.
-As shown in Fig.~\ref{fig:rmse1}, we can observe that the proposed scheme achieves a similar accuracy to the baseline algorithm CATD.
+As shown in Fig.~\ref{fig:rmse1}, we observe that the proposed scheme achieves a similar accuracy to the baseline algorithm CATD.
 Additionally, the estimated truths are closer to the real ground truths with the increase in the number of workers.
 \begin{figure}[htbp]
   \centering 
@@ -430,10 +433,11 @@ Additionally, the estimated truths are closer to the real ground truths with the
   \label{fig:rmse} 
 \end{figure}
 To further analyze the impact of sparsity $\gamma$ for accuracy, we conduct the experiment under different sparsity settings from 0.2 to 0.6.
-The results in Fig.~\ref{fig:rmse2} show that in a high sparse situation, it is necessary to recruit more workers to decrease the deviation between estimated truths with real ground truths.
+The results in Fig.~\ref{fig:rmse2} show that in a high sparsity situation, it is necessary to recruit more workers to get more accurate results.
+% decrease the deviation between estimated truths with real ground truths.
 
 \subsection{Convergence}
-As for convergence, we use $\sum_{m=1}^M (x_m^t - x_m^{t-1})^2$ as the convergence value in the $t$-th iteration, where $x_m^t$ is the estimated truth in $t$-th iteration and $x_m^0$ is randomly initialized.
+As for convergence, we use $\sum_{m=1}^M (x_m^t - x_m^{t-1})^2$ as the convergence value in the $t$-th iteration, where $x_m^t$ is the estimated truth in $t$-th iteration and $x_m^0$ is initialized randomly.
 In this experiment, the number of workers and objects are fixed as 10 and 20 respectively.
 As illustrated in Fig.~\ref{fig:conver}, the convergence speed is very fast at the first few iterations.
 Meanwhile, the sparsity has little impact on the convergence.
@@ -511,13 +515,13 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \end{adjustbox}
 \end{table}
 
-As for the iteration phases, we measure the computation cost of $S_0$ and $S_1$ under different numbers of workers and objects for each iteration.
+As for the iteration phase, we measure the computation cost of $S_0$ and $S_1$ under different numbers of workers and objects for each iteration.
 As shown in Fig.~\ref{fig:comp}, the computation cost for $S_1$ is much less compared to $S_0$ in the same conditions.
 For the communication overhead, TABLE~\ref{tab:communication} reports the communication overhead for each entity in different phases.
 It is clear that the communication overhead in the iteration phase is less than that in the non-iteration phase.
 Note that the alternative privacy-preserving truth discovery scheme~\cite{zheng_learning_2018} based on CATD is implemented by GC.
 However, the computation cost of GC generation and the communication of GC transmission are huge.
-We demonstrate that both computation and communication overheads on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
+We demonstrate that both computation overhead and communication overhead on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
 
 \section{Conclusion}\label{sec8}
 In this paper, we propose a privacy-preserving truth discovery scheme targeted for privacy-preserving problems in sparse data scenarios.
