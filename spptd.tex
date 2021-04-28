@@ -39,13 +39,13 @@ xxx@ustc.edu.cn}
 
 \begin{abstract}
 Truth discovery is an effective method to infer truthful information among a large amount of sensory data in mobile crowdsensing systems.
-Privacy-preserving truth discovery schemes require the cloud server not to access each worker's sensory data directly, thus the privacy of sensory data can be preserved.
+Privacy-preserving truth discovery schemes require the cloud server not to access each worker's sensory data directly, so that the privacy of sensory data can be preserved.
 In some specific situations such as the sparse mobile crowdsensing, the sensory data collected by workers are usually sparse, which implies that the information of whether or not a worker collects specific data should also be protected.
 % In real practice such as sparse crowdsensing, it is common that the sensory data collected by some participants are sparse, which implies that the privacy of whether or not a participant collects specific data also needs to be protected.
 However, existing privacy-preserving truth discovery schemes do not consider such sparse data scenarios in mobile crowdsensing systems.
 In this paper, we first identify the privacy issues in truth discovery when sensory data are sparse.
 To address these issues, then we design a privacy-preserving truth discovery scheme by employing the additively homomorphic cryptosystem with two non-colluding servers.
-Finally, through detailed security analysis and extensive experiments, we demonstrate that our proposed scheme can satisfy strong privacy-preserving requirements with both low computation and communication overheads on the workers' side.
+Finally, through detailed security analysis and extensive experiments, we demonstrate that our proposed scheme can satisfy strong privacy-preserving requirements with low computation cost and communication overhead on the workers' side.
 \end{abstract}
 \begin{IEEEkeywords}
 Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
@@ -58,7 +58,38 @@ Since the quality of sensory data provided by different workers may vary greatly
 To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} was proposed, where the general principle is to estimate each worker's reliability degree (usually referred to {\em weight}) before calculating the truthful result (usually referred to {\em ground truth}).
 
 Although truth discovery can help cloud server to derive ground truth in an effective way, it poses threats to workers' privacy directly.
-To assure sensory data privacy, several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} have been proposed by utilizing different approaches.
+Several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} argued that the data provided by workers are sensitive to some extent, and designed different schemes to assure workers' privacy.
+% have been developed to assure workers' privacy.
+% To assure sensory data privacy, several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} have been proposed by utilizing different approaches.
+These works mainly focus on the privacy of workers' sensory data, and some works~\cite{zhang_reliable_2019,xue_inpptd_2020} further pointed out that the privacy of workers' weight should also be preserved.
+% 以上方案没有考虑两类问题： 如何处理稀疏的感知数据， 稀疏情况下又带来什么安全问题
+However, these schemes only 
+
+
+
+However, 
+workers' observed objects are incomplete.
+
+However, only taking the privacy of sensory data and weights into account is not sufficient on the situation where the sensory data provided by workers are sparse.
+Fig presents the example of sparse mobile crowdsensing~\cite{wang_sparse_2016}, in which the sensed objects represent different subareas of a city.
+In this situation, 
+To collect sensory data for all sensed objects, workers need to access all distinct subareas in the city within a specific period.
+% To collect sensory data for all sensed objects, workers need to access all distinct subareas in the city within a specific period, which is impractical.
+% As shown in Fig , taking the sparse mobile crowdsensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different subareas of a city.
+
+% sparsely sensory data.
+% in some specific situations.
+% what is sparsely sensed data, why it happend
+
+In consideration of the real mobile crowdsensing systems, it is quite common that a worker only senses a few objects for saving power, which leads to that the sensory data provided by workers are sparse.
+Besides, the number of sensory data provided by different workers may be influenced by various factors such as workers' abilities, objects' types, and the workers' locations.
+
+However, only consider the privacy of sensory data and weights is not sufficient to guarantee the workers' privacy when the sensory data provided by workers are sparse.
+% As shown in Fig.1, 
+% Clarify what is sparse
+% in consideration of the real mobile crowdsensing systems, it is quite common that a worker only senses a few objects for saving power.
+% In this condition, 
+
 Most of these schemes are based on the CRH algorithm~\cite{li_resolving_2014}, which is a representative truth discovery algorithm in recent years.
 The core principle of CRH is that a worker will be assigned a higher weight if the provided sensory data are closer to the ground truths, and the sensory data provided by a worker will be counted more if this worker has a higher weight~\cite{xu_efficient_2019}.
 However, the CRH algorithm requires that each worker has to provide sensory data of all sensed objects.
@@ -69,7 +100,8 @@ Besides, the number of sensory data provided by different workers may be influen
 Taking the sparse mobile crowdsensing~\cite{wang_sparse_2016} as an example, the sensed objects represent different subareas of a city.
 To collect sensory data for all sensed objects, workers need to access all distinct subareas in the city within a specific period, which is impractical.
 In this condition, the sensory data provided by workers are always sparse.
-Thus, it is infeasible to apply existing CRH-based privacy-preserving truth discovery schemes under this situation.
+% Thus, existing CRH-based privacy-preserving truth discovery schemes 
+% it is infeasible to apply existing CRH-based privacy-preserving truth discovery schemes under this situation.
 
 In this paper, we focus on the privacy issues of sparse data for truth discovery and propose a privacy-preserving truth discovery scheme to handle these issues.
 In particular, our contributions are summarized in the following:
@@ -85,7 +117,7 @@ Section~\ref{sec2} introduces the related work.
 The system model and design goals are given in Section~\ref{sec3}.
 In Section~\ref{sec4}, we briefly describe the truth discovery algorithm and additively homomorphic cryptosystem.
 Section~\ref{sec5} illustrates our proposed scheme in detail.
-After that, security analysis and performance evaluation are provided in Section~\ref{sec6} and Section~\ref{sec7} respectively.
+After that, security analysis and performance evaluation are provided in Section~\ref{sec6} and Section~\ref{sec7}, respectively.
 Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
@@ -103,7 +135,7 @@ To reduce the interactions of workers, Miao et al.~\cite{miao_lightweight_2017} 
 After that, more and more schemes are designed under two-server setting (such as~\cite{zhang_lptd_2019,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}).
 
 On the other hand, most of the existing privacy-preserving truth discovery schemes are based on the CRH algorithm, which requires workers to provide sensory data for all objects.
-But in the real-world mobile crowdsensing systems (like sparse mobile crowd sensing~\cite{wang_sparse_2016}), it is usually impractical for workers to observe all objects at a specific period.
+But in real-world mobile crowdsensing systems (like sparse mobile crowd sensing~\cite{wang_sparse_2016}), it is usually impractical for workers to observe all objects at a specific period.
 
 Fortunately, there is another truth discovery algorithm called CATD~\cite{li_confidence-aware_2014} for handling long-tail data, which is also feasible for the sparse data situation.
 Zheng et al.~\cite{zheng_learning_2018} designed an encrypted truth discovery based on CATD under two non-colluding servers where all procedures are conducted in the encrypted domain.
@@ -139,7 +171,10 @@ Besides, considering that most workers are resource-limited, it is necessary to 
 In the proposed scheme, we assume that all entities are semi-honest, which means that both workers and servers will honestly execute the protocols, but they are also curious about participants' privacy.
 Besides, the two servers in our scheme are non-colluding, which is a common assumption in most two-server models~\cite{zhang_lptd_2019,zhang_reliable_2019}.
 Note that the lazy workers are not considered, since this issue can be solved by integrating incentive mechanism~\cite{xue_inpptd_2020}.
-Since the truth discovery algorithm only considers estimating ground truth from existing sensory data, the issues of inferring missing data are out of the scope of this paper and we do not consider them in this work.
+Since the truth discovery algorithm only considers estimating ground truth from existing sensory data, the issues of inferring missing data are out of the scope of this paper.
+ % and we do not consider them in this work.
+ % SSL 通道
+ % 浮点数处理
 
 \section{Preliminaries}\label{sec4}
 In this section, we introduce the truth discovery algorithm CATD~\cite{li_confidence-aware_2014} and additively homomorphic cryptosystem.
