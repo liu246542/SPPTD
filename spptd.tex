@@ -61,7 +61,7 @@ Since the quality of sensory data provided by different workers may vary greatly
 To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014} was proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
 
 Although truth discovery can help cloud server to derive truthful information in an effective way, it poses threats to workers' privacy directly.
-Several researchers~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} pointed out that the data provided by workers are sensitive to some extent, and designed different schemes to assure workers' privacy.
+Several researchers~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020} pointed out that the data provided by workers are sensitive to some extent, and designed different schemes to assure workers' privacy.
 % have been developed to assure workers' privacy.
 % To assure sensory data privacy, several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} have been proposed by utilizing different approaches.
 These works mainly focus on the privacy of workers' sensory data, and some of them (such as~\cite{zhang_reliable_2019,xue_inpptd_2020}) further argued that the privacy of workers' weight should also be preserved.
@@ -69,7 +69,7 @@ These works mainly focus on the privacy of workers' sensory data, and some of th
 So far, these schemes can only be applied to the situation where workers have to execute all sensing tasks.
  % provide sensory data for the whole sensing tasks.
 However, due to the variety of task types and workers' abilities, requiring each worker to execute all sensing tasks seems unrealistic.
-Especially in the mobile crowdsensing systems, it is quite common that a worker only executes a partial tasks for saving energy.
+Especially in the mobile crowdsensing systems, it is quite common that a worker only executes partial tasks for saving energy.
 Under these circumstances, the sensory data provided by workers probably are only concerned with partial sensing tasks, namely the sensory data are sparse.
 To the best of our knowledge, there has been little discussion about privacy-preserving truth discovery in such a sparse data environment.
 % However, far too little attention has been paid to the situation where sensory data provided by workers are sparse.
@@ -122,7 +122,7 @@ After that, system analysis and performance evaluation are provided in Section~\
 Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
-Recently, several studies have attempted to employ various methods such as cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020}.
+Recently, several studies have attempted to employ various methods such as cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020}.
 In general, these schemes can be categorized into the single-server setting and two-server setting.
 
 In the single-server-based schemes~\cite{miao_cloud-enabled_2015,xu_efficient_2019}, workers have to participate in the iterative processes for weight update, which implies that they would suffer from additional computing and communication overhead.
@@ -232,7 +232,7 @@ The main goal of our proposed scheme is to design a privacy-preserving truth dis
 Inspired by~\cite{wang_sparse_2020}, the privacy of indicator vector for each worker also needs to be considered for sparse data.
 % According to research~\cite{wang_sparse_2020}, the information of which objects are uploaded by a worker may disclose this worker's location trajectory in sparse mobile crowdsensing.
 % In other words, the privacy of indicator vector for each worker also needs to be preserved.
-Therefore, the main goal of our privacy-preserving truth discovery scheme is to protect workers' privacy including sensory data, indicator vector, and weights simultaneously.
+Therefore, the main goal is to protect workers' privacy including sensory data, indicator vector, and weights simultaneously.
 Besides, considering that most workers are resource-limited, it is also necessary to reduce the computation overhead and communication overhead on the workers' side.
 
 Note that the lazy workers are not involved, because this issue can be solved by integrating incentive mechanism~\cite{xue_inpptd_2020}.
@@ -291,7 +291,7 @@ We claim that the above public-key cryptosystem is additively homomorphic if it 
 
 \subsection{Additive Secret Sharing}
 Secret sharing is one of the most important tools in secure multi-party computation.
-The additive secret sharing means that a secret $x$ can be randomly split into $n$ shares, for example $x = x_1 + x_2 + \ldots, x_n$.
+The additive secret sharing means that a secret $x$ can be randomly split into $n$ shares, for example $x = x_0 + x_1 + \ldots, x_{n-1}$.
 The only approach to recover the secret is to collect all $n$ shares.
 % To recover the secret, the only way is to 
 % The additive secret sharing can be seen as an $(n,n)$-threshold secret sharing 
@@ -669,7 +669,7 @@ We demonstrate that the computation overhead and communication overhead on the w
 In this paper, we propose a privacy-preserving truth discovery scheme targeted for privacy-preserving problems in sparse data scenarios.
 First, we carefully discuss the privacy issues for truth discovery when sensory data provided by workers are sparse.
 After that, we present a scheme to guarantee these requirements by utilizing additively homomorphic cryptosystem based on the CATD framework.
-Finally, through the analysis of security, our proposed scheme can provide the strong privacy protection of workers' sensory data, weights, and indicator vectors at the same time.
+Finally, through the analysis of security, our proposed scheme can provide strong privacy protection of workers' sensory data, weights, and indicator vectors at the same time.
 Extensive experiments also indicate that the computation overhead of workers and the communication overhead in the iteration phase are lightweight enough, which implies that the proposed scheme is practical in real mobile crowdsensing systems.
 
 \section*{Acknowledgments}
