@@ -41,13 +41,14 @@ xxx@ustc.edu.cn}
 \begin{abstract}
 Truth discovery is an effective method to infer truthful information from a large amount of sensory data in mobile crowdsensing systems.
 Privacy-preserving truth discovery schemes require the cloud server not to access each worker's sensory data directly, so that the privacy of sensory data can be preserved.
-In some specific applications such as the sparse mobile crowdsensing, workers can only contribute sensory data on small part of objects, which implies that the information of whether or not a worker collects specific data should also be protected.
+In some specific applications such as the sparse mobile crowdsensing, workers can only contribute sensory data on small part of sensing tasks, which implies that the information of which tasks are completed by a worker should also be protected.
+% whether or not a worker collects specific data should also be protected.
 % the sensory data collected by workers are usually sparse, which implies that the information of whether or not a worker collects specific data should also be protected.
 % In real practice such as sparse crowdsensing, it is common that the sensory data collected by some participants are sparse, which implies that the privacy of whether or not a participant collects specific data also needs to be protected.
 However, existing privacy-preserving truth discovery schemes do not consider such sparse data scenarios in mobile crowdsensing systems.
 In this paper, we first identify the privacy issues in truth discovery when sensory data are sparse.
-To address these issues, then we design a privacy-preserving truth discovery scheme by employing the additively homomorphic cryptosystem with two non-colluding servers.
-Finally, through detailed security analysis and extensive experiments, we demonstrate that our proposed scheme can satisfy strong privacy-preserving requirements with low computation and communication overhead.
+To address these issues, we design a privacy-preserving truth discovery scheme by employing the additively homomorphic cryptosystem with two non-colluding servers.
+Through detailed analysis and extensive experiments, we demonstrate that our proposed scheme can satisfy strong privacy-preserving requirements with low computation and communication overhead.
 \end{abstract}
 \begin{IEEEkeywords}
 Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
@@ -116,7 +117,7 @@ The problem statement is given in Section~\ref{sec3}.
 % The system model and design goals are given in Section~\ref{sec3}.
 In Section~\ref{sec4}, we briefly describe the truth discovery algorithm and additively homomorphic cryptosystem.
 Section~\ref{sec5} illustrates our proposed scheme in detail.
-After that, security analysis and performance evaluation are provided in Section~\ref{sec6} and Section~\ref{sec7}, respectively.
+After that, system analysis and performance evaluation are provided in Section~\ref{sec6} and Section~\ref{sec7}, respectively.
 Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
@@ -151,13 +152,6 @@ The research pointed out that the information of which tasks are executed by a w
 However, their work only focuses on the privacy requirements in sparse mobile crowdsensing while not takes the truth discovery into account.
 To the best of our knowledge, there still lacks discussions about the privacy issues for truth discovery in sparse data scenarios.
 
-We further present the comparison between our proposed scheme with several state-of-the-art privacy-preserving truth discovery schemes.
-In this work, we use an an indicator to mark which tasks are executed by a worker.
-As listed in TABLE~\ref{tab:security}, only the encrypted CATD and our proposed scheme can deal with the sparse data scenarios.
-But the encrypted CATD cannot guarantee the privacy of indicator privacy.
-% Furthermore, we 
-% which means the server can learn the information of which objects are observed by a worker. 
-
 \begin{table}[htbp]
   \centering
   \caption{Comparison with Various Schemes}~\label{tab:security}
@@ -181,6 +175,13 @@ But the encrypted CATD cannot guarantee the privacy of indicator privacy.
   \end{tabular}  
   \end{adjustbox}
 \end{table}
+
+We further present the comparison between our proposed scheme with several state-of-the-art privacy-preserving truth discovery schemes.
+In this work, we use an an indicator to mark which tasks are executed by a worker.
+As listed in TABLE~\ref{tab:security}, only the encrypted CATD and our proposed scheme can deal with the sparse data scenarios.
+But the encrypted CATD cannot guarantee the privacy of indicator privacy.
+% Furthermore, we 
+% which means the server can learn the information of which objects are observed by a worker. 
 
 % the sensed objects represent different subareas of a city.
 % For example, 
@@ -640,7 +641,7 @@ For the communication overhead, TABLE~\ref{tab:communication} reports the commun
 It is clear that the communication overhead in the iteration phase is less than that in the non-iteration phase.
 Note that the alternative privacy-preserving truth discovery scheme~\cite{zheng_learning_2018} based on CATD is implemented by GC.
 However, the computation cost of GC generation and the communication of GC transmission are huge.
-We demonstrate that both computation overhead and communication overhead on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
+We demonstrate that the computation overhead and communication overhead on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
 
 \section{Conclusion}\label{sec8}
 In this paper, we propose a privacy-preserving truth discovery scheme targeted for privacy-preserving problems in sparse data scenarios.
