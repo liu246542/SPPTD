@@ -30,18 +30,20 @@
 % \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
-\author{\IEEEauthorblockN{xxx}
-\IEEEauthorblockA{School of Cyber Security, University of Science and Technology of China, Hefei, Anhui 230027, China\\
+
+\author{\IEEEauthorblockN{Feng Liu, Bin Zhu, Shaoxian Yuan, Kaiping Xue}
+\IEEEauthorblockA{School of Cyber Security, University of Science and Technology of China, Hefei, Anhui 230027 China\\
 % \textit{University of Science and Technology of China}\\
 % Hefei, Anhui 230027, China \\
-xxx@ustc.edu.cn}
 }
+}
+
 \maketitle
 
 \begin{abstract}
 Truth discovery is an effective method to infer truthful information from a large amount of sensory data in mobile crowdsensing systems.
 Privacy-preserving truth discovery schemes require the cloud server not to access each worker's sensory data directly, so that the privacy of sensory data can be preserved.
-In some specific applications such as the sparse mobile crowdsensing, workers can only contribute sensory data on a small part of sensing tasks, which implies that the information of which tasks are completed by a worker should also be protected.
+In some specific applications such as the sparse mobile crowdsensing, workers can only contribute sensory data on a small part of sensing tasks. This implies that the information of which tasks are completed by a worker should also be protected.
 % whether or not a worker collects specific data should also be protected.
 % the sensory data collected by workers are usually sparse, which implies that the information of whether or not a worker collects specific data should also be protected.
 % In real practice such as sparse crowdsensing, it is common that the sensory data collected by some participants are sparse, which implies that the privacy of whether or not a participant collects specific data also needs to be protected.
@@ -58,18 +60,18 @@ Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
 Over the past few years, developments in the field of cloud computing and the Internet of Things have led to a growing interest in mobile crowdsensing systems.
 In a typical mobile crowdsensing system, the cloud server can collect and analyze the sensory data provided by a number of mobile devices (usually referred to as {\em workers}, e.g., smartphones, wearables, and on-board computers).
 Since the quality of sensory data provided by different workers may vary greatly, how to derive the truthful information from sensory data of different qualities becomes a major obstacle.
-To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014} was proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
+To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} was proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
 
 Although truth discovery can help cloud server to derive truthful information in an effective way, it poses threats to workers' privacy directly.
-Several researchers~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020} pointed out that the data provided by workers are sensitive to some extent, and designed different schemes to assure workers' privacy.
+Several researchers~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021} pointed out that the data provided by workers are sensitive to some extent, and designed different schemes to assure workers' privacy.
 % have been developed to assure workers' privacy.
 % To assure sensory data privacy, several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} have been proposed by utilizing different approaches.
-These works mainly focus on the privacy of workers' sensory data, and some of them (such as~\cite{zhang_reliable_2019,xue_inpptd_2020}) further argued that the privacy of workers' weight should also be preserved.
+These works mainly focus on the privacy of workers' sensory data, and some of them (such as~\cite{zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}) further argued that the privacy of workers' weight should also be preserved.
 % 以上方案没有考虑两类问题： 如何处理稀疏的感知数据， 稀疏情况下又带来什么安全问题
 So far, these schemes can only be applied to the situation where workers have to execute all sensing tasks.
  % provide sensory data for the whole sensing tasks.
 However, due to the variety of task types and workers' abilities, requiring each worker to execute all sensing tasks seems unrealistic.
-Especially in the mobile crowdsensing systems, it is quite common that a worker only executes partial tasks for saving energy.
+Especially in the mobile crowdsensing systems, it is quite common that a worker only executes partial tasks for saving energy~\cite{wang_sparse_2016,wang_energy_2018}.
 Under these circumstances, the sensory data provided by workers probably are only concerned with partial sensing tasks, namely the sensory data are sparse.
 To the best of our knowledge, there has been little discussion about privacy-preserving truth discovery in such a sparse data environment.
 % However, far too little attention has been paid to the situation where sensory data provided by workers are sparse.
@@ -127,7 +129,7 @@ In general, these schemes can be categorized into the single-server setting and 
 
 In the single-server-based schemes~\cite{miao_cloud-enabled_2015,xu_efficient_2019}, workers have to participate in the iterative processes for weight update, which implies that they would suffer from additional computing and communication overhead.
 To reduce the interactions of workers, Miao {\em et al}.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding servers.
-After that, more and more schemes~\cite{zhang_reliable_2019,xue_inpptd_2020} are designed under the two-server setting.
+After that, more and more schemes~\cite{zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021} are designed under the two-server setting.
 
 In addition, no matter the single-server-based schemes or two-server-based schemes, all the previously mentioned methods are based on the {\bf C}onflict {\bf R}esolution on {\bf H}eterogeneous Data (CRH) algorithm~\cite{li_resolving_2014}, which is a representative truth discovery algorithm in recent years.
 Due to the limitation that each worker has to provide sensory data of all sensing tasks in CRH algorithm, the CRH-based privacy-preserving truth discovery schemes fail to handle the sparse sensory data.
@@ -295,7 +297,7 @@ The additive secret sharing means that a secret $x$ can be randomly split into $
 The only approach to recover the secret is to collect all $n$ shares.
 % To recover the secret, the only way is to 
 % The additive secret sharing can be seen as an $(n,n)$-threshold secret sharing 
-In this paper, we only pay attention to the situation where $n=2$.
+In this paper, we just pay attention to the situation where $n=2$.
 That is, the data owner can randomly split a secret data $x$ into two additive shares $x_0$ and $x_1$, namely, $x = x_0 + x_1$.
 For each server $S_i$ $(i\in\{0,1\})$ owns the share $x_i$, the secret $x$ cannot be recovered without the help of $S_{1-i}$.
 % the other share of $S_{1-i}$.
@@ -493,10 +495,9 @@ Since $\tilde{\phi}_m^k (x_{m,0}^k)^2 + 2\tilde{\phi}_m^kx_{m,0}^k\left(x_{m,1}^
 Hence, the perturbed weight $\tilde{w}_k$ can be written as
 \begin{equation*}
   \begin{split}
-  \tilde{w}_k & = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} \\
-  & = \frac{1}{b_k \sum_{m=1}^M \tilde{\phi}_m^k (x_m - x_m^*)^2} \\
+  \tilde{w}_k & = \frac{1}{\mathsf{Dec}_{sk}\left(C_k\right)} = \frac{1}{b_k \sum_{m=1}^M \tilde{\phi}_m^k (x_m - x_m^*)^2} = \frac{w_k}{b_k} . \\
   % & = \frac{1}{b_k} \cdot \frac{y_k}{\sum_{m=1}^M \phi_m^k (x_m - x_m^*)^2} \\
-  & = \frac{w_k}{b_k} . \\
+  % & = \frac{w_k}{b_k} . \\
   \end{split}
 \end{equation*}
 Therefore, the correctness of Eq.~\ref{eq:wk} holds.
@@ -547,7 +548,7 @@ Note that $C_0^k$, $C_{pack1}$ and $C_{pack2}$ are ciphertexts under additively 
 In this section, we evaluate the performance of the proposed scheme in terms of accuracy, convergence, computation overhead, and communication overhead.
 % Specifically, we choose Paillier homomorphic cryptosystem~\cite{paillier_public-key_1999} as the additively homomorphic cryptosystem in our scheme.
 All procedures are conducted on a computer with an Intel Core i5-10400 CPU (4.30 GHz) and 16GB RAM running Linux operation system.
-We invoke the Python-Paillier library~\cite{paillier_public-key_1999} for rapidly building advance cryptosystems (key size is set to 2048 bits by default).
+We invoke the Python-Paillier library~\cite{PythonPaillier} for rapidly building advance cryptosystems (key size is set to 2048 bits by default).
 All experiments are executed 10 times and we take the average results.
 For the sake of illustration, we use $\gamma$ to denote the sparsity of sensory data.
 $\gamma$ is defined as $\gamma = 1 - (\sum_{m=1}^M\sum_{k=1}^K\phi_m^k) / (M\cdot K)$.
@@ -560,7 +561,8 @@ Hereafter, unless otherwise stated, the default sparsity is set to 0.2.
 \subsection{Accuracy}
 Since the CATD framework is adopted as the fundamental truth discovery algorithm in our proposed scheme, we first measure the accuracy of estimated ground truth between our proposed scheme and CATD.
 Similar to~\cite{zhang_reliable_2019,xue_inpptd_2020}, we use the Root of Mean Squared Error (RMSE) defined as $(\sum_{m=1}^M (x_m^* - \hat{x}_m)/M)^{\frac{1}{2}}$ to evaluate the deviation between the estimated truths $\{x_m^*\}_{m=1}^M$ and the ground truths $\{\hat{x}_m\}_{m=1}^M$.
-In this experiment, the number of objects and sparsity of sensory data are fixed as 20 and 0.2 respectively, the number of workers varies from 5 to 25.
+In this experiment, the number of objects is fixed as 20, the number of workers varies from 10 to 50.
+ % and sparsity of sensory data are fixed as 20 and 0.2 respectively, the number of workers varies from 5 to 25.
 As shown in Fig.~\ref{fig:rmse1}, we observe that the proposed scheme achieves a similar accuracy to the baseline algorithm CATD.
 Additionally, the estimated truths are closer to the real ground truths with the increase in the number of workers.
 \begin{figure}[htbp]
@@ -585,7 +587,7 @@ As illustrated in Fig.~\ref{fig:conver}, the convergence speed is very fast at t
 Meanwhile, the sparsity has little impact on the convergence.
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.65\linewidth]{figures/conver.pdf}
+  \includegraphics[width=0.60\linewidth]{figures/conver.pdf}
   \caption{Convergence Evaluation}
   \label{fig:conver}
 \end{figure}
@@ -601,7 +603,7 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \centering
   \caption{Computation Overhead in Non-Iteration Phases (s)}~\label{tab:computation}
   \linespread{1.3}\selectfont
-  \begin{adjustbox}{max width=0.46\textwidth}
+  \begin{adjustbox}{max width=0.45\textwidth}
   \begin{tabular}{l l c c c}
     \hline
     \hline
@@ -672,7 +674,8 @@ After that, we present a scheme to guarantee these requirements by utilizing add
 Finally, through the analysis of security, our proposed scheme can provide strong privacy protection of workers' sensory data, weights, and indicator vectors at the same time.
 Extensive experiments also indicate that the computation overhead of workers and the communication overhead in the iteration phase are lightweight enough, which implies that the proposed scheme is practical in real mobile crowdsensing systems.
 
-\section*{Acknowledgments}
+\section*{Acknowledgment}
+This work is supported in part by the National Natural Science Foundation of China under Grant No. 61972371 and Youth Innovation Promotion Association of the Chinese Academy of Sciences (CAS) under Grant No. Y202093.
 
 \bibliographystyle{IEEEtran}
 \bibliography{ref}
