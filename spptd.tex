@@ -31,11 +31,9 @@
 }
 
 
-\author{\IEEEauthorblockN{Feng Liu, Bin Zhu, Shaoxian Yuan, Kaiping Xue$^\dag$}
+\author{\IEEEauthorblockN{Feng Liu, Bin Zhu, Shaoxian Yuan, Jian Li, Kaiping Xue$^\dag$}
 \IEEEauthorblockA{School of Cyber Security, University of Science and Technology of China, Hefei, Anhui 230027, China\\
 $^\dag$Corresponding author, kpxue@ustc.edu.cn
-% \textit{University of Science and Technology of China}\\
-% Hefei, Anhui 230027, China \\
 }
 }
 
@@ -591,20 +589,20 @@ Hereafter, unless otherwise stated, the default sparsity is set to 0.2 by defaul
 % \end{equation*}
 
 \subsection{Accuracy}
-Since the CATD framework is adopted as the fundamental truth discovery algorithm in our proposed scheme, we first measure the accuracy of estimated ground truth between our proposed scheme and CATD.
+Since the CATD~\cite{li_confidence-aware_2014} is adopted as the fundamental truth discovery algorithm in our proposed scheme, we first measure the accuracy of estimated ground truth between our proposed scheme and the baseline algorithm.
 Similar to~\cite{zhang_reliable_2019,xue_inpptd_2020}, we use the Root of Mean Squared Error (RMSE) defined as $(\sum\limits_{m=1}^M (x_m^* - \hat{x}_m)/M)^{\frac{1}{2}}$ to evaluate the deviation between the estimated truths $\{x_m^*\}_{m=1}^M$ and the ground truths $\{\hat{x}_m\}_{m=1}^M$.
 In this experiment, the number of objects is fixed as 20, the number of workers varies from 10 to 50.
  % and sparsity of sensory data are fixed as 20 and 0.2 respectively, the number of workers varies from 5 to 25.
-As shown in Fig.~\ref{fig:rmse1}, we observe that the proposed scheme achieves a similar accuracy to the baseline algorithm CATD.
+As shown in Fig.~\ref{fig:rmse1}, we observe that the proposed scheme achieves a similar accuracy to the baseline algorithm.
 Additionally, the estimated truths are closer to the real ground truths with the increase in the number of workers.
 \begin{figure}[htbp]
   \centering 
   \subfloat[Accuracy Comparison with CATD]{ 
     \label{fig:rmse1}
-    \includegraphics[width=0.5\linewidth]{figures/rmse1.pdf}}
+    \includegraphics[width=0.48\linewidth]{figures/rmse1.pdf}}
   \subfloat[The Impact of Different Sparsity]{ 
     \label{fig:rmse2} 
-    \includegraphics[width=0.5\linewidth]{figures/rmse2.pdf}} 
+    \includegraphics[width=0.48\linewidth]{figures/rmse2.pdf}} 
   \caption{Accuracy Evaluation}
   \label{fig:rmse} 
 \end{figure}
@@ -635,7 +633,7 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \centering
   \caption{Computation Overhead in Non-Iteration Phases (s)}~\label{tab:computation}
   \linespread{1.3}\selectfont
-  \begin{adjustbox}{max width=0.46\textwidth}
+  \begin{adjustbox}{max width=0.4\textwidth}
   \begin{tabular}{l l c c c}
     \hline
     \hline
@@ -667,11 +665,21 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \label{fig:comp} 
 \end{figure}
 
+
+
+As for the iteration phase, we measure the computation cost of $S_0$ and $S_1$ under different numbers of workers and objects for each iteration.
+As shown in Fig.~\ref{fig:comp}, the computation cost for $S_1$ is much less compared to $S_0$ under some conditions.
+For the communication overhead, TABLE~\ref{tab:communication} reports the communication overhead for each entity in different phases.
+It is clear that the communication overhead in the iteration phase is less than that in the non-iteration phase.
+Note that the alternative privacy-preserving truth discovery scheme~\cite{zheng_learning_2018} based on CATD is implemented by GC.
+However, the computation cost of GC generation and the communication of GC transmission are huge.
+We demonstrate that the computation overhead and communication overhead on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
+
 \begin{table}[!ht]
   \centering
   \caption{Communication Overhead (KB)}~\label{tab:communication}
   \linespread{1.3}\selectfont
-  \begin{adjustbox}{max width=0.46\textwidth}
+  \begin{adjustbox}{max width=0.48\textwidth}
   \begin{tabular}{l l c c c c}
     \hline
     \hline
@@ -691,14 +699,6 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \end{adjustbox}
 \end{table}
 
-As for the iteration phase, we measure the computation cost of $S_0$ and $S_1$ under different numbers of workers and objects for each iteration.
-As shown in Fig.~\ref{fig:comp}, the computation cost for $S_1$ is much less compared to $S_0$ under some conditions.
-For the communication overhead, TABLE~\ref{tab:communication} reports the communication overhead for each entity in different phases.
-It is clear that the communication overhead in the iteration phase is less than that in the non-iteration phase.
-Note that the alternative privacy-preserving truth discovery scheme~\cite{zheng_learning_2018} based on CATD is implemented by GC.
-However, the computation cost of GC generation and the communication of GC transmission are huge.
-We demonstrate that the computation overhead and communication overhead on the workers' side are lightweight, and the communication overhead between two servers is also acceptable for truth discovery in reality.
-
 \section{Conclusion}\label{sec8}
 In this paper, we proposed a privacy-preserving truth discovery scheme targeted for privacy-preserving problems in sparse data scenarios.
 Firstly, we carefully discussed the privacy issues for truth discovery when sensory data provided by workers are sparse.
@@ -709,8 +709,120 @@ Extensive experiments also indicate that the computation overhead of workers and
 \section*{Acknowledgment}
 This work is supported in part by the National Natural Science Foundation of China under Grant No. 61972371 and Youth Innovation Promotion Association of the Chinese Academy of Sciences (CAS) under Grant No. Y202093.
 
-\bibliographystyle{IEEEtran}
-\bibliography{ref}
+% \bibliographystyle{IEEEtran}
+% \bibliography{ref}
+
+% Generated by IEEEtran.bst, version: 1.14 (2015/08/26)
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@samestyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
+\providecommand{\BIBentryALTinterwordstretchfactor}{4}
+\providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand{\BIBforeignlanguage}[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+\providecommand{\BIBdecl}{\relax}
+\BIBdecl
+
+\bibitem{li_resolving_2014}
+Q.~Li, Y.~Li, J.~Gao, B.~Zhao, W.~Fan, and J.~Han, ``Resolving conflicts in
+  heterogeneous data by truth discovery and source reliability estimation,'' in
+  \emph{Proceedings of the 2014 {International} {Conference} on {Management} of
+  {Data} (SIGMOD)}.\hskip 1em plus 0.5em minus 0.4em\relax ACM, Jun. 2014, pp.
+  1187--1198.
+
+\bibitem{li_confidence-aware_2014}
+Q.~Li, Y.~Li, J.~Gao, L.~Su, B.~Zhao, M.~Demirbas, W.~Fan, and J.~Han, ``A
+  confidence-aware approach for truth discovery on long-tail data,''
+  \emph{Proceedings of the VLDB Endowment}, vol.~8, no.~4, pp. 425--436, Dec.
+  2014.
+
+\bibitem{li_conflicts_2016}
+Y.~Li, Q.~Li, J.~Gao, L.~Su, B.~Zhao, W.~Fan, and J.~Han, ``Conflicts to
+  harmony: {A} framework for resolving conflicts in heterogeneous data by truth
+  discovery,'' \emph{IEEE Transactions on Knowledge and Data Engineering},
+  vol.~28, no.~8, pp. 1986--1999, Aug. 2016.
+
+\bibitem{miao_cloud-enabled_2015}
+C.~Miao, W.~Jiang, L.~Su, Y.~Li, S.~Guo, Z.~Qin, H.~Xiao, J.~Gao, and K.~Ren,
+  ``Cloud-enabled privacy-preserving truth discovery in crowd sensing
+  systems,'' in \emph{Proceedings of the 13th {ACM} {Conference} on {Embedded}
+  {Networked} {Sensor} {Systems} (SenSys)}.\hskip 1em plus 0.5em minus
+  0.4em\relax ACM, Nov. 2015, pp. 183--196.
+
+\bibitem{xu_efficient_2019}
+G.~Xu, H.~Li, S.~Liu, M.~Wen, and R.~Lu, ``Efficient and privacy-preserving
+  truth discovery in mobile crowd sensing systems,'' \emph{IEEE Transactions on
+  Vehicular Technology}, vol.~68, no.~4, pp. 3854--3865, Apr. 2019.
+
+\bibitem{miao_lightweight_2017}
+C.~Miao, L.~Su, W.~Jiang, Y.~Li, and M.~Tian, ``A lightweight
+  privacy-preserving truth discovery framework for mobile crowd sensing
+  systems,'' in \emph{Proceedings of the 2017 {IEEE} {Conference} on
+  {Communications} (Infocom)}, May 2017, pp. 1--9.
+
+\bibitem{zhang_reliable_2019}
+C.~Zhang, L.~Zhu, C.~Xu, X.~Liu, and K.~Sharif, ``Reliable and
+  privacy-preserving truth discovery for mobile crowdsensing systems,''
+  \emph{IEEE Transactions on Dependable and Secure Computing}, May 2019.
+
+\bibitem{xue_inpptd_2020}
+K.~Xue, B.~Zhu, Q.~Yang, N.~Gai, D.~S.~L. Wei, and N.~Yu, ``{InPPTD}: An
+  lightweight incentive-based privacy-preserving truth discovery for crowd
+  sensing systems,'' \emph{IEEE Internet of Things Journal}, pp. 4305--4316,
+  Oct. 2020.
+
+\bibitem{tang_achieving_2021}
+J.~Tang, S.~Fu, X.~Liu, Y.~Luo, and M.~Xu, ``Achieving privacy-preserving and
+  lightweight truth discovery in mobile crowdsensing,'' \emph{IEEE Transactions
+  on Knowledge and Data Engineering}, Early Access, 2021.
+
+\bibitem{wang_sparse_2016}
+L.~Wang, D.~Zhang, Y.~Wang, C.~Chen, X.~Han, and A.~M'hamed, ``Sparse mobile
+  crowdsensing: challenges and opportunities,'' \emph{IEEE Communications
+  Magazine}, vol.~54, no.~7, pp. 161--167, Jul. 2016.
+
+\bibitem{wang_energy_2018}
+J.~Wang, Y.~Wang, D.~Zhang, and S.~Helal, ``Energy saving techniques in mobile
+  crowd sensing: {Current} state and future opportunities,'' \emph{IEEE
+  Communications Magazine}, vol.~56, no.~5, pp. 164--169, May 2018.
+
+\bibitem{zheng_learning_2018}
+Y.~Zheng, H.~Duan, and C.~Wang, ``Learning the truth privately and confidently:
+  {Encrypted} confidence-aware truth discovery in mobile crowdsensing,''
+  \emph{IEEE Transactions on Information Forensics and Security}, vol.~13,
+  no.~10, pp. 2475--2489, Oct. 2018.
+
+\bibitem{wang_sparse_2020}
+L.~Wang, D.~Zhang, D.~Yang, B.~Y. Lim, X.~Han, and X.~Ma, ``Sparse mobile
+  crowdsensing with differential and distortion location privacy,'' \emph{IEEE
+  Transactions on Information Forensics and Security}, vol.~15, pp. 2735--2749,
+  Feb. 2020.
+
+\bibitem{paillier_public-key_1999}
+P.~Paillier, ``Public-key cryptosystems based on composite degree residuosity
+  classes,'' in \emph{Proceedings of the 1999 {International} {Conference} on
+  the {Theory} and {Applications} of {Cryptographic} {Techniques}}.\hskip 1em
+  plus 0.5em minus 0.4em\relax Springer, 1999, pp. 223--238.
+
+\bibitem{PythonPaillier}
+``Python paillier library,'' \url{https://github.com/data61/python-paillier}.
+
+\end{thebibliography}
+
+
+
 
 \vspace{12pt}
 
