@@ -61,13 +61,13 @@ Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
 Over the past few years, developments in the field of cloud computing and the Internet of Things have led to a growing interest in mobile crowdsensing systems.
 In a typical mobile crowdsensing system, the cloud server can analyze the sensory data provided by a number of mobile devices (usually referred to as {\em workers}, e.g., smartphones, wearables, and on-board computers).
 Since the quality of sensory data provided by different workers may vary greatly, how to derive the truthful information from sensory data of different qualities becomes a major obstacle.
-To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} was proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
+To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} is proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
 
 Although truth discovery can help cloud server to derive truthful information in an effective way, it poses threats to workers' privacy directly.
 Several researchers~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021} pointed out that the data provided by workers are sensitive to some extent, and designed diverse privacy-preserving truth discovery schemes to assure workers' privacy.
 % have been developed to assure workers' privacy.
 % To assure sensory data privacy, several works~\cite{miao_cloud-enabled_2015,miao_lightweight_2017,xu_efficient_2019,zhang_reliable_2019,xue_inpptd_2020} have been proposed by utilizing different approaches.
-These works mainly focus on the privacy of workers' sensory data, and some of them (such as~\cite{zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}) further argued that the privacy of workers' weights should also be preserved.
+These works mainly focus on the privacy of workers' sensory data, and some of them (such as~\cite{zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}) further aruge that the privacy of workers' weights should also be preserved.
 % 以上方案没有考虑两类问题： 如何处理稀疏的感知数据， 稀疏情况下又带来什么安全问题
 So far, these schemes can only be applied to the situation where workers have to execute all sensing tasks.
  % provide sensory data for the whole sensing tasks.
@@ -131,8 +131,7 @@ In general, these schemes can be categorized into the single-server setting and 
 In the single-server-based schemes~\cite{miao_cloud-enabled_2015,xu_efficient_2019}, workers have to participate in the iterative processes for weight update, which implies that they would suffer from additional computing and communication overhead.
 To reduce the interactions of workers, Miao {\em et al}.~\cite{miao_lightweight_2017} proposed $L$-PPTD and $L^2$-PPTD by involving two non-colluding servers.
 After that, more and more schemes~\cite{zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021} are designed under the two-server setting.
-
-In addition, no matter the single-server-based schemes or two-server-based schemes, all the previously mentioned methods are based on the {\bf C}onflict {\bf R}esolution on {\bf H}eterogeneous Data (CRH) algorithm~\cite{li_resolving_2014}, which is a representative truth discovery algorithm in recent years.
+Overall, no matter the single-server-based schemes or two-server-based schemes, all the previously mentioned methods are based on the {\bf C}onflict {\bf R}esolution on {\bf H}eterogeneous Data (CRH) algorithm~\cite{li_resolving_2014}, which is a representative truth discovery algorithm in recent years.
 Due to the limitation that each worker has to provide sensory data of all sensing tasks in CRH algorithm, the CRH-based privacy-preserving truth discovery schemes fail to handle the sparse sensory data.
 
 % Since the CRH algorithm requires that each worker has to provide sensory data of all sensing tasks, which leads to that 
@@ -149,7 +148,6 @@ Due to the limitation that each worker has to provide sensory data of all sensin
 Fortunately, there is another truth discovery algorithm called {\bf C}onfidence-{\bf A}ware {\bf T}ruth {\bf D}iscovery (CATD)~\cite{li_confidence-aware_2014} for handling sparse data.
 Zheng {\em et al}.~\cite{zheng_learning_2018} designed an encrypted truth discovery based on CATD with two non-colluding servers, where all procedures are conducted in the encrypted domain.
 Their proposed scheme can realize strong privacy protection for workers' sensory data and weights by adopting Garbled Circuit (GC).
-
 However, only achieving privacy preservation of sensory data and weights is not enough in sparse data situation, because the information of which tasks are completed by a worker is also sensitive.
 Taking the sparse mobile crowdsensing~\cite{wang_sparse_2020} as an example, the sensing tasks are distributed in different locations of a spatial area.
 So that workers cannot execute all tasks within a short period, which leads to sparse sensory data.
@@ -182,14 +180,15 @@ To the best of our knowledge, there still lacks discussions about the privacy is
   \end{adjustbox}
 \end{table}
 
-Overall, we present the comparison between our proposed scheme with several state-of-the-art privacy-preserving truth discovery schemes.
+As listed in TABLE~\ref{tab:security}, we present the comparison between our proposed scheme with several state-of-the-art privacy-preserving truth discovery schemes.
 The indicator privacy means the privacy of which tasks are executed by a worker, since we use an indicator to mark which tasks are completed by a worker in this work.
 % the tasks completed by 
 % Here we use the indicator to represent which tasks are executed by a worker.
  % to mark 
-As listed in TABLE~\ref{tab:security}, only the encrypted CATD and our proposed scheme can work in the sparse data scenarios.
+% As listed in TABLE~\ref{tab:security}, only the encrypted CATD and our proposed scheme can work in the sparse data scenarios.
+Only the encrypted CATD and our proposed scheme can work in the sparse data scenarios, but the encrypted CATD cannot guarantee the indicator privacy.
  % deal with the sparse data scenarios.
-But the encrypted CATD cannot guarantee the indicator privacy.
+% but the encrypted CATD cannot guarantee the indicator privacy.
 % Furthermore, we 
 % which means the server can learn the information of which objects are observed by a worker. 
 
@@ -262,7 +261,7 @@ Inspired by~\cite{wang_sparse_2020}, the privacy of indicator vector for each wo
 % According to research~\cite{wang_sparse_2020}, the information of which objects are uploaded by a worker may disclose this worker's location trajectory in sparse mobile crowdsensing.
 % In other words, the privacy of indicator vector for each worker also needs to be preserved.
 Therefore, the main goal is to protect workers' privacy including sensory data, indicator vector, and weights simultaneously.
-Besides, considering that most workers are resource-limited, it is also necessary to reduce the computation overhead and communication overhead on the workers' side.
+In addition, considering that most workers are resource-limited, it is also necessary to reduce the computation overhead and communication overhead on the workers' side.
 
 Note that the lazy workers are not involved, because this issue can be solved by integrating incentive mechanism~\cite{xue_inpptd_2020}.
 In addition, the issues of inferring missing data from historical data records are challenging and not considered in this work.
@@ -383,8 +382,8 @@ The whole procedure can be divided into 5 phases: {\em Initialization}, {\em Rep
 In this phase, $S_0$ first generates an asymmetric key pair $(pk, sk)$ of the additively homomorphic cryptosystem by invoking $\mathsf{KeyGen}(\cdot)$.
 % in Section~\ref{sec4-b}.
 % Note that if this phase is executed for the first time, the initial ground truths $\{x_m^*\}_{m=1}^M$ are chosen randomly.
-Then $S_0$ sets a small number for the significant level $\alpha$ ($\alpha$ is set to 0.05 by default) and randomly generates the initial truths $\{x_m^*\}_{m=1}^M$.
-Finally, $S_0$ publishes the public key $pk$ along with the significant level $\alpha$, and sends the initial truths to $S_1$.
+Then $S_0$ sets a small number for the signiﬁcance level $\alpha$ ($\alpha$ is set to 0.05 by default) and randomly generates the initial truths $\{x_m^*\}_{m=1}^M$.
+Finally, $S_0$ publishes the public key $pk$ along with the signiﬁcance level $\alpha$, and sends the initial truths to $S_1$.
 
 \subsection{Report Phase}
 In this phase, each worker collects sensory data for distinct objects.
@@ -657,10 +656,10 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \centering 
   \subfloat[$K = 10 $]{ 
     \label{fig:comp1}
-    \includegraphics[width=0.48\linewidth]{figures/time_obj.pdf}}
+    \includegraphics[width=0.49\linewidth]{figures/time_obj.pdf}}
   \subfloat[$M = 20$]{ 
     \label{fig:comp2} 
-    \includegraphics[width=0.48\linewidth]{figures/time_work.pdf}} 
+    \includegraphics[width=0.49\linewidth]{figures/time_work.pdf}} 
   \caption{Computation Overhead for Each Iteration}
   \label{fig:comp} 
 \end{figure}
@@ -679,7 +678,7 @@ We demonstrate that the computation overhead and communication overhead on the w
   \centering
   \caption{Communication Overhead (KB)}~\label{tab:communication}
   \linespread{1.3}\selectfont
-  \begin{adjustbox}{max width=0.48\textwidth}
+  \begin{adjustbox}{max width=0.49\textwidth}
   \begin{tabular}{l l c c c c}
     \hline
     \hline
@@ -764,24 +763,25 @@ C.~Miao, W.~Jiang, L.~Su, Y.~Li, S.~Guo, Z.~Qin, H.~Xiao, J.~Gao, and K.~Ren,
 \bibitem{xu_efficient_2019}
 G.~Xu, H.~Li, S.~Liu, M.~Wen, and R.~Lu, ``Efficient and privacy-preserving
   truth discovery in mobile crowd sensing systems,'' \emph{IEEE Transactions on
-  Vehicular Technology}, vol.~68, no.~4, pp. 3854--3865, Apr. 2019.
+  Vehicular Technology}, vol.~68, no.~4, pp. 3854--3865, Jan. 2019.
 
 \bibitem{miao_lightweight_2017}
 C.~Miao, L.~Su, W.~Jiang, Y.~Li, and M.~Tian, ``A lightweight
   privacy-preserving truth discovery framework for mobile crowd sensing
   systems,'' in \emph{Proceedings of the 2017 {IEEE} {Conference} on
-  {Communications} (Infocom)}, May 2017, pp. 1--9.
+  {Communications} (Infocom)}. \hskip 1em plus 0.5em minus 0.4em\relax IEEE, May 2017, pp. 1--9.
 
 \bibitem{zhang_reliable_2019}
 C.~Zhang, L.~Zhu, C.~Xu, X.~Liu, and K.~Sharif, ``Reliable and
   privacy-preserving truth discovery for mobile crowdsensing systems,''
-  \emph{IEEE Transactions on Dependable and Secure Computing}, May 2019.
+  \emph{IEEE Transactions on Dependable and Secure Computing}, vol.~18, no.~3,
+   pp. 1245--1260, May 2019.
 
 \bibitem{xue_inpptd_2020}
 K.~Xue, B.~Zhu, Q.~Yang, N.~Gai, D.~S.~L. Wei, and N.~Yu, ``{InPPTD}: An
   lightweight incentive-based privacy-preserving truth discovery for crowd
-  sensing systems,'' \emph{IEEE Internet of Things Journal}, pp. 4305--4316,
-  Oct. 2020.
+  sensing systems,'' \emph{IEEE Internet of Things Journal}, vol.~8, no.~6,
+   pp. 4305--4316, Oct. 2020.
 
 \bibitem{tang_achieving_2021}
 J.~Tang, S.~Fu, X.~Liu, Y.~Luo, and M.~Xu, ``Achieving privacy-preserving and
@@ -790,19 +790,19 @@ J.~Tang, S.~Fu, X.~Liu, Y.~Luo, and M.~Xu, ``Achieving privacy-preserving and
 
 \bibitem{wang_sparse_2016}
 L.~Wang, D.~Zhang, Y.~Wang, C.~Chen, X.~Han, and A.~M'hamed, ``Sparse mobile
-  crowdsensing: challenges and opportunities,'' \emph{IEEE Communications
+  crowdsensing: Challenges and opportunities,'' \emph{IEEE Communications
   Magazine}, vol.~54, no.~7, pp. 161--167, Jul. 2016.
 
 \bibitem{wang_energy_2018}
 J.~Wang, Y.~Wang, D.~Zhang, and S.~Helal, ``Energy saving techniques in mobile
-  crowd sensing: {Current} state and future opportunities,'' \emph{IEEE
+  crowd sensing: Current state and future opportunities,'' \emph{IEEE
   Communications Magazine}, vol.~56, no.~5, pp. 164--169, May 2018.
 
 \bibitem{zheng_learning_2018}
 Y.~Zheng, H.~Duan, and C.~Wang, ``Learning the truth privately and confidently:
-  {Encrypted} confidence-aware truth discovery in mobile crowdsensing,''
+  Encrypted confidence-aware truth discovery in mobile crowdsensing,''
   \emph{IEEE Transactions on Information Forensics and Security}, vol.~13,
-  no.~10, pp. 2475--2489, Oct. 2018.
+  no.~10, pp. 2475--2489, Mar. 2018.
 
 \bibitem{wang_sparse_2020}
 L.~Wang, D.~Zhang, D.~Yang, B.~Y. Lim, X.~Han, and X.~Ma, ``Sparse mobile
@@ -814,7 +814,7 @@ L.~Wang, D.~Zhang, D.~Yang, B.~Y. Lim, X.~Han, and X.~Ma, ``Sparse mobile
 P.~Paillier, ``Public-key cryptosystems based on composite degree residuosity
   classes,'' in \emph{Proceedings of the 1999 {International} {Conference} on
   the {Theory} and {Applications} of {Cryptographic} {Techniques}}.\hskip 1em
-  plus 0.5em minus 0.4em\relax Springer, 1999, pp. 223--238.
+  plus 0.5em minus 0.4em\relax Springer, Apr. 1999, pp. 223--238.
 
 \bibitem{PythonPaillier}
 ``Python paillier library,'' \url{https://github.com/data61/python-paillier}.
