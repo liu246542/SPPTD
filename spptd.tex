@@ -13,6 +13,9 @@
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 
+\hyphenpenalty=6000
+\tolerance=10000
+
 \ifCLASSOPTIONcompsoc
 \usepackage[caption=false, font=normalsize, labelfont=sf, textfont=sf]{subfig}
 \else
@@ -61,7 +64,7 @@ Truth Discovery, Privacy Preservation, Sparse Data, Mobile Crowdsensing
 Over the past few years, developments in the field of cloud computing and the Internet of Things have led to a growing interest in mobile crowdsensing systems.
 In a typical mobile crowdsensing system, the cloud server can analyze the sensory data provided by a number of mobile devices (usually referred to as {\em workers}, e.g., smartphones, wearables, and on-board computers).
 Since the quality of sensory data provided by different workers may vary greatly, how to derive the truthful information from sensory data of different qualities becomes a major obstacle.
-To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014,li_conflicts_2016} is proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
+To address this challenge, an effective method called truth discovery~\cite{li_resolving_2014,li_confidence-aware_2014} is proposed, where the general principle is to calculate each worker's reliability degree (usually referred to as {\em weight}) before estimating the truths.
 
 Although truth discovery can help cloud server to derive truthful information in an effective way, it poses threats to workers' privacy directly.
 Several researchers~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021} pointed out that the data provided by workers are sensitive to some extent, and designed diverse privacy-preserving truth discovery schemes to assure workers' privacy.
@@ -125,7 +128,7 @@ After that, system analysis and performance evaluation are provided in Section~\
 Finally, Section~\ref{sec8} concludes this paper.
 
 \section{Related Work}~\label{sec2}
-Recently, several studies have attempted to employ various methods such as cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020}.
+Recently, several studies have attempted to employ various methods such as cryptographic tools and data perturbation techniques to assure privacy preservation for truth discovery~\cite{miao_cloud-enabled_2015,xu_efficient_2019,miao_lightweight_2017,zhang_reliable_2019,xue_inpptd_2020,tang_achieving_2021}.
 In general, these schemes can be categorized into the single-server setting and two-server setting.
 
 In the single-server-based schemes~\cite{miao_cloud-enabled_2015,xu_efficient_2019}, workers have to participate in the iterative processes for weight update, which implies that they would suffer from additional computing and communication overhead.
@@ -271,7 +274,7 @@ In addition, the issues of inferring missing data from historical data records a
 In the proposed scheme, we assume that all entities are semi-honest, which means that both workers and servers will honestly execute the protocols, but they will also try to infer private information about participants.
 For each participant in this system, we assume that there always exist secure channels among workers, $S_0$, and $S_1$.
 % As for the communication channels between workers and servers, and 
-Besides, similar to other two-sever-based schemes~\cite{miao_lightweight_2017,zhang_reliable_2019}, the two servers are assumed not to collude with each other in this system.
+Besides, similar to other two-sever-based schemes~\cite{zhang_reliable_2019,xue_two-cloud_2017}, the two servers are assumed not to collude with each other in this system.
 % which is a common assumption in most two-server models~\cite{zhang_lptd_2019,zhang_reliable_2019}.
 
  % the two servers in our scheme are non-colluding, which is a common assumption in most two-server models~\cite{zhang_lptd_2019,zhang_reliable_2019}.
@@ -664,8 +667,6 @@ We observe the computation cost of workers is negligible compared to $S_0$ since
   \label{fig:comp} 
 \end{figure}
 
-
-
 As for the iteration phase, we measure the computation cost of $S_0$ and $S_1$ under different numbers of workers and objects for each iteration.
 As shown in Fig.~\ref{fig:comp}, the computation cost for $S_1$ is much less compared to $S_0$ under some conditions.
 For the communication overhead, TABLE~\ref{tab:communication} reports the communication overhead for each entity in different phases.
@@ -747,11 +748,11 @@ Q.~Li, Y.~Li, J.~Gao, L.~Su, B.~Zhao, M.~Demirbas, W.~Fan, and J.~Han, ``A
   \emph{Proceedings of the VLDB Endowment}, vol.~8, no.~4, pp. 425--436, Dec.
   2014.
 
-\bibitem{li_conflicts_2016}
-Y.~Li, Q.~Li, J.~Gao, L.~Su, B.~Zhao, W.~Fan, and J.~Han, ``Conflicts to
-  harmony: {A} framework for resolving conflicts in heterogeneous data by truth
-  discovery,'' \emph{IEEE Transactions on Knowledge and Data Engineering},
-  vol.~28, no.~8, pp. 1986--1999, Aug. 2016.
+% \bibitem{li_conflicts_2016}
+% Y.~Li, Q.~Li, J.~Gao, L.~Su, B.~Zhao, W.~Fan, and J.~Han, ``Conflicts to
+%   harmony: {A} framework for resolving conflicts in heterogeneous data by truth
+%   discovery,'' \emph{IEEE Transactions on Knowledge and Data Engineering},
+%   vol.~28, no.~8, pp. 1986--1999, Aug. 2016.
 
 \bibitem{miao_cloud-enabled_2015}
 C.~Miao, W.~Jiang, L.~Su, Y.~Li, S.~Guo, Z.~Qin, H.~Xiao, J.~Gao, and K.~Ren,
@@ -778,7 +779,7 @@ C.~Zhang, L.~Zhu, C.~Xu, X.~Liu, and K.~Sharif, ``Reliable and
    pp. 1245--1260, May 2019.
 
 \bibitem{xue_inpptd_2020}
-K.~Xue, B.~Zhu, Q.~Yang, N.~Gai, D.~S.~L. Wei, and N.~Yu, ``{InPPTD}: An
+K.~Xue, B.~Zhu, Q.~Yang, N.~Gai, D.~S.L.~Wei, and N.~Yu, ``{InPPTD}: An
   lightweight incentive-based privacy-preserving truth discovery for crowd
   sensing systems,'' \emph{IEEE Internet of Things Journal}, vol.~8, no.~6,
    pp. 4305--4316, Oct. 2020.
@@ -810,6 +811,12 @@ L.~Wang, D.~Zhang, D.~Yang, B.~Y. Lim, X.~Han, and X.~Ma, ``Sparse mobile
   Transactions on Information Forensics and Security}, vol.~15, pp. 2735--2749,
   Feb. 2020.
 
+\bibitem{xue_two-cloud_2017}
+K.~Xue, S.~Li, J.~Hong, Y.~Xue, N.~Yu, and P.~Hong, ``Two-cloud secure database
+ for numeric-related SQL range queries with privacy preserving,'' \emph{IEEE
+  Transactions on Information Forensics and Security}, vol.~12, no.~7, pp. 1596--1608,
+  Mar. 2017.
+
 \bibitem{paillier_public-key_1999}
 P.~Paillier, ``Public-key cryptosystems based on composite degree residuosity
   classes,'' in \emph{Proceedings of the 1999 {International} {Conference} on
@@ -820,8 +827,6 @@ P.~Paillier, ``Public-key cryptosystems based on composite degree residuosity
 ``Python paillier library,'' \url{https://github.com/data61/python-paillier}.
 
 \end{thebibliography}
-
-
 
 
 \vspace{12pt}
